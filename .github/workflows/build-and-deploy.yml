@@ -1,0 +1,10 @@
+on: [push]
+name: Build and Deploy
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build Bicep Template
+        run: az bicep build --file ./.infrastructure/main.bicep --outfile ./.infrastructure/main.json
