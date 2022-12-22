@@ -5,6 +5,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
+      - run: ls -alR
       - name: Build Bicep Template
         run: az bicep build --file ./.infrastructure/main.bicep --outfile ./.infrastructure/main.json
