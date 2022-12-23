@@ -1,12 +1,11 @@
-param deploymentTime string = utcNow('MMddyyyyHHmmss')
 param region string = resourceGroup().location
 param storageAccountName string
 param apiManagementName string
 param apiManagementPublisherEmail string
 param apiManagementPublisherName string
 
-var storageAccountDeploymentName = 'storage-${storageAccountName}-${deploymentTime}'
-var apiManagementDeploymentName = 'apiManagement-${apiManagementName}-${deploymentTime}'
+var storageAccountDeploymentName = 'storage-${storageAccountName}-${deployment().name}'
+var apiManagementDeploymentName = 'apiManagement-${apiManagementName}-${deployment().name}'
 
 module storageAccount './modules/storageAccount.bicep' = {
   name: storageAccountDeploymentName
