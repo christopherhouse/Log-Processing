@@ -21,4 +21,7 @@ resource apiManagement 'Microsoft.ApiManagement/service@2022-04-01-preview' = {
     publisherEmail: publisherEmail
     publisherName: publisherName
   }
+  identity: {
+    type: 'SystemAssigned'
+  }
 }
