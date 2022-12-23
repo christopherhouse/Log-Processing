@@ -2,7 +2,7 @@ param deploymentTime string = utcNow('MMddyyyyHHmmss')
 param region string = resourceGroup().location
 param storageAccountName string
 param apiManagementName string
-param apiMangagementPublisherEmail string
+param apiManagementPublisherEmail string
 param apiManagementPublisherName string
 
 var storageAccountDeploymentName = 'storage-${storageAccountName}-${deploymentTime}'
@@ -21,7 +21,7 @@ module apiManagement './modules/apiManagement.bicep' = {
   params: {
     apiManagementName: apiManagementName
     region: region
-    publisherEmail: apiMangagementPublisherEmail
+    publisherEmail: apiManagementPublisherEmail
     publisherName: apiManagementPublisherName
   }
   dependsOn: [
