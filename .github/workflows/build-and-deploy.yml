@@ -19,6 +19,8 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     environment: Development
+    env:
+      environmentName: Deveopment
     steps:
       - uses: actions/checkout@v2
 
