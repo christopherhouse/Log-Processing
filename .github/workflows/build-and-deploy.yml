@@ -17,7 +17,7 @@ jobs:
     
   deploy-infrastructure-development:
     name: Deploy Infrastructure to Development
-    uses: ./github/workflows/deploy-infrastructure.yml
+    uses: ./.github/workflows/deploy-infrastructure.yml
     needs: build
     with:
       environment: Development
