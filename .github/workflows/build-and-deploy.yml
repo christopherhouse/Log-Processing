@@ -30,17 +30,17 @@ jobs:
       SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
       ENVIRONMENT_NAME: ${{ secrets.ENVIRONMENT_NAME }}
   
-  deploy-infrastructure-sandbox:
-    name: Deploy Infrastructure to Sandbox
-    uses: ./.github/workflows/deploy-infrastructure.yml
-    needs: build
-    with:
-      environment: Sandbox
-    secrets:
-      AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
-      RESOURCE_GROUP: ${{ secrets.RESOURCE_GROUP }}
-      SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
-      ENVIRONMENT_NAME: ${{ secrets.ENVIRONMENT_NAME }}
+  # deploy-infrastructure-sandbox:
+  #   name: Deploy Infrastructure to Sandbox
+  #   uses: ./.github/workflows/deploy-infrastructure.yml
+  #   needs: build
+  #   with:
+  #     environment: Sandbox
+  #   secrets:
+  #     AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+  #     RESOURCE_GROUP: ${{ secrets.RESOURCE_GROUP }}
+  #     SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
+  #     ENVIRONMENT_NAME: ${{ secrets.ENVIRONMENT_NAME }}
   
   deploy-infrastructure-production:
     name: Deploy Infrastructure to Production
