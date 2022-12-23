@@ -4,6 +4,15 @@
     "parameters": {
       "storageAccountName": {
         "value": "cmhlogprocesssbx"
+      },
+      "apiManagementName": {
+        "value": "cmh-logprocess-apim-sbx"
+      },
+      "apiManagementPublisherEmail": {
+        "value": "chhouse@microsoft.com"
+      },
+      "apiManagementPublisherName": {
+        "value": "Christopher House"
       }
     }
   }
