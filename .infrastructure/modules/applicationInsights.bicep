@@ -36,5 +36,5 @@ resource connectionStringSecret 'Microsoft.KeyVault/vaults/secrets@2022-07-01' =
   }
 }
 
-output instrumentationKeySecretId string = instrumentationKeySecret.id
-output connectionStringSecretId string = connectionStringSecret.id
+output instrumentationKeySecretUri string = instrumentationKeySecret.properties.secretUri
+output connectionStringSecretUri string = connectionStringSecret.properties.secretUri
