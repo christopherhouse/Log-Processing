@@ -45,7 +45,7 @@ jobs:
   deploy-infrastructure-production:
     name: Deploy Infrastructure to Production
     uses: ./.github/workflows/deploy-infrastructure.yml
-    needs: [ deploy-infrastructure-development, deploy-infrastructure-sandbox ]
+    needs: deploy-infrastructure-development #[ deploy-infrastructure-development, deploy-infrastructure-sandbox ]
     with:
       environment: Production
     secrets:
