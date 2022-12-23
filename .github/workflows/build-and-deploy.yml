@@ -40,7 +40,7 @@ jobs:
         with:
           resourceGroupName: ${{ secrets.RESOURCE_GROUP }}
           template: ./.infrastructure/main.bicep
-          parameters: ${{ format('./.infrastructure/parameters/{0}/parameters.{0}.json', {{ secrets.ENVIRONMENT_NAME }}) }}
+          parameters: ${{ format('./.infrastructure/parameters/{0}/parameters.{0}.json', secrets.ENVIRONMENT_NAME) }}
           deploymentName: ${{ github.run_id }}
           subscriptionId: ${{ secrets.SUBSCRIPTION_ID }}
           deploymentScope: ResourceGroup
