@@ -1,17 +1,13 @@
-param apimResourceName string
-param location string = resourceGroup().location
+param deploymentTime string = utcNow('MMddyyyyHHmmss')
+param region string = resourceGroup().location
+param storageAccountName string
 
-var theName = '${apimResourceName}-${location}'
+var storageAccountDeploymentName = '{storageAccountName}-{deploymentTime}}'
 
-resource apim 'Microsoft.ApiManagement/service@2019-01-01' = {
-  name: theName
-  location: location
-  sku: {
-    name: 'Developer'
-    capacity: 1
-  }
-  properties: {
-    publisherEmail: 'chhouse@microsoft.com'
-    publisherName: 'chhouse'
+module storageAccount './modules/storageAccount.bicep' = {
+  name: storageAccountDeploymentName
+  params: {
+    storageAccountName: storageAccountName
+    region: region
   }
 }
