@@ -6,12 +6,14 @@ param apiManagementPublisherName string
 param logAnalyticsWorkspaceName string
 param apimApplicationInsightsName string
 param functionAppApplicationInsightsName string
+param keyVaultName string
 
 var storageAccountDeploymentName = 'storage-${storageAccountName}-${deployment().name}'
 var apiManagementDeploymentName = 'apiManagement-${apiManagementName}-${deployment().name}'
 var logAnalyticsWorkspaceDeploymentName = 'logAnalyticsWorkspace-${logAnalyticsWorkspaceName}-${deployment().name}'
 var applicationInsightsDeploymentName = 'applicationInsights-${apimApplicationInsightsName}-${deployment().name}'
-var functionAppApplicationInsightsDepliymentName = 'applicationInsights-${functionAppApplicationInsightsName}-${deployment().name}'
+var functionAppApplicationInsightsDeploymentName = 'applicationInsights-${functionAppApplicationInsightsName}-${deployment().name}'
+var keyVaultDeploymentName = 'keyVault-${keyVaultName}-${deployment().name}'
 
 module storageAccount './modules/storageAccount.bicep' = {
   name: storageAccountDeploymentName
@@ -52,10 +54,21 @@ module apimApplicationInsights './modules/applicationInsights.bicep' = {
 }
 
 module functionAppApplicationInsights './modules/applicationInsights.bicep' = {
-  name: functionAppApplicationInsightsDepliymentName
+  name: functionAppApplicationInsightsDeploymentName
   params: {
     applicationInsightsName: functionAppApplicationInsightsName
     region: region
     logAnalyticsWorkspaceId: logAnalyticsWorkspace.outputs.id
+  }
+}
+
+module keyVault './modules/keyVault.bicep' = {
+  name: keyVaultDeploymentName
+  params: {
+    keyVaultName: keyVaultName
+    region: region
+    applicationIds: [
+      apiManagement.outputs.managedIdentityObjectId
+    ]
   }
 }

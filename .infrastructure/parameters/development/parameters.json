@@ -22,6 +22,9 @@
       },
       "functionAppApplicationInsightsName": {
         "value": "cmh-logprocess-ai-fa-dev"
+      },
+      "keyVaultName": {
+        "value": "cmh-logprocess-kv-dev"
       }
     }
   }
