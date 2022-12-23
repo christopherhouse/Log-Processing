@@ -1,0 +1,36 @@
+on:
+  workflow_call:
+    secrets:
+      AZURE_CREDENTIALS:
+        required: true
+      RESOURCE_GROUP:
+        required: true
+      SUBSCRIPTION_ID:
+        required: true
+      ENVIRONMENT_NAME:
+        required: true
+
+jobs:
+  deploy-infrastructure:
+    runs-on: ubuntu-latest
+    environment: ${{ secrets.ENVIRONMENT_NAME }}
+    steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: infrastructure
+          path: ./.infrastructure/
+      
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      
+      - name: Deploy Infrastructure
+        uses: azure/arm-deploy@v1
+        with:
+          resourceGroupName: ${{ secrets.RESOURCE_GROUP }}
+          template: ./.infrastructure/main.bicep
+          parameters: ${{ format('./.infrastructure/parameters/{0}/parameters.{0}.json', secrets.ENVIRONMENT_NAME) }}
+          deploymentName: ${{ github.run_id }}
+          subscriptionId: ${{ secrets.SUBSCRIPTION_ID }}
