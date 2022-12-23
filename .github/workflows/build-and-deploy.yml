@@ -15,20 +15,16 @@ jobs:
           name: infrastructure
           path: ./.infrastructure/
     
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment: Development
-    name: Deploy to Development
-    steps:
-      - uses: actions/checkout@v2
-      
-      - uses: ./github/workflows/deploy-infrastructure.yml
-        secrets:
-          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
-          RESOURCE_GROUP: ${{ secrets.RESOURCE_GROUP }}
-          SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
-          ENVIRONMENT_NAME: Development
+  deploy-infrastructure:
+      uses: ./github/workflows/deploy-infrastructure.yml
+      needs: build
+      with:
+        environment: Development
+      secrets:
+        AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+        RESOURCE_GROUP: ${{ secrets.RESOURCE_GROUP }}
+        SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
+        ENVIRONMENT_NAME: Development
 
       # - name: Download Artifacts
       #   uses: actions/download-artifact@v2

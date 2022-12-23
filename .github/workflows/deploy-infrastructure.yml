@@ -1,5 +1,10 @@
 on:
   workflow_call:
+    inputs:
+      environment:
+        description: 'The environment to deploy to'
+        required: true
+        type: string
     secrets:
       AZURE_CREDENTIALS:
         required: true
@@ -13,8 +18,11 @@ on:
 jobs:
   deploy-infrastructure:
     runs-on: ubuntu-latest
-    environment: ${{ secrets.ENVIRONMENT_NAME }}
+    environment: ${{ inputs.environment }}
     steps:
+      - name: Checkout 
+        uses: actions/checkout@v2
+
       - name: Download Artifacts
         uses: actions/download-artifact@v2
         with:
