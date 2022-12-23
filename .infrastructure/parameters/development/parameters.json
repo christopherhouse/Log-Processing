@@ -13,6 +13,15 @@
       },
       "apiManagementPublisherName": {
         "value": "Christopher House"
+      },
+      "apimApplicationInsightsName": {
+        "value": "cmh-logprocess-ai-apim-dev"
+      },
+      "logAnalyticsWorkspaceName": {
+        "value": "cmh-logprocess-la-dev"
+      },
+      "functionAppApplicationInsightsName": {
+        "value": "cmh-logprocess-ai-fa-dev"
       }
     }
   }

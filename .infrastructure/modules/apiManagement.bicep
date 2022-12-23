@@ -25,3 +25,5 @@ resource apiManagement 'Microsoft.ApiManagement/service@2022-04-01-preview' = {
     type: 'SystemAssigned'
   }
 }
+
+output managedIdentityObjectId string = apiManagement.identity.principalId
