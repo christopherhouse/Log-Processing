@@ -14,3 +14,31 @@ jobs:
         with:
           name: infrastructure
           path: ./.infrastructure/
+    
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: Development
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Download Artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: infrastructure
+          path: ./.infrastructure/
+
+      - name: Deploy Infrastructure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      
+      - name: Deploy Infrastructure
+        uses: azure/arm-deploy@v1
+        with:
+          resourceGroupName: ${{ secrets.RESOURCE_GROUP }}
+          template: ./.infrastructure/main.bicep
+          parameters: ./.infrastructure/parameters.json
+          deploymentName: ${{ github.run_id }}
+          subscriptionId: ${{ secrets.SUBSCRIPTION_ID }}
+          deploymentScope: ResourceGroup
