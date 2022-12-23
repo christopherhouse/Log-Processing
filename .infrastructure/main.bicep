@@ -50,7 +50,13 @@ module apimApplicationInsights './modules/applicationInsights.bicep' = {
     applicationInsightsName: apimApplicationInsightsName
     region: region
     logAnalyticsWorkspaceId: logAnalyticsWorkspace.outputs.id
+    keyVaultName: keyVaultName
+    instrumentationKeySecretName: 'apimApplicationInsightsInstrumentationKey'
+    connectionStringSecretName: 'apimApplicationInsightsConnectionString'
   }
+  dependsOn:[
+    keyVault
+  ]
 }
 
 module functionAppApplicationInsights './modules/applicationInsights.bicep' = {
@@ -59,7 +65,13 @@ module functionAppApplicationInsights './modules/applicationInsights.bicep' = {
     applicationInsightsName: functionAppApplicationInsightsName
     region: region
     logAnalyticsWorkspaceId: logAnalyticsWorkspace.outputs.id
+    keyVaultName: keyVaultName
+    instrumentationKeySecretName: 'functionAppApplicationInsightsInstrumentationKey'
+    connectionStringSecretName: 'functionAppApplicationInsightsConnectionString'
   }
+  dependsOn:[
+    keyVault
+  ]
 }
 
 module keyVault './modules/keyVault.bicep' = {
