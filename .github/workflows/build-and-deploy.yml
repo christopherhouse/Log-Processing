@@ -15,33 +15,14 @@ jobs:
           name: infrastructure
           path: ./.infrastructure/
     
-  deploy-infrastructure:
-      uses: ./github/workflows/deploy-infrastructure.yml
-      needs: build
-      with:
-        environment: Development
-      secrets:
-        AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
-        RESOURCE_GROUP: ${{ secrets.RESOURCE_GROUP }}
-        SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
-        ENVIRONMENT_NAME: Development
-
-      # - name: Download Artifacts
-      #   uses: actions/download-artifact@v2
-      #   with:
-      #     name: infrastructure
-      #     path: ./.infrastructure/
-
-      # - name: Deploy Infrastructure
-      #   uses: azure/login@v1
-      #   with:
-      #     creds: ${{ secrets.AZURE_CREDENTIALS }}
-      
-      # - name: Deploy Infrastructure
-      #   uses: azure/arm-deploy@v1
-      #   with:
-      #     resourceGroupName: ${{ secrets.RESOURCE_GROUP }}
-      #     template: ./.infrastructure/main.bicep
-      #     parameters: ${{ format('./.infrastructure/parameters/{0}/parameters.{0}.json', secrets.ENVIRONMENT_NAME) }}
-      #     deploymentName: ${{ github.run_id }}
-      #     subscriptionId: ${{ secrets.SUBSCRIPTION_ID }}
+  deploy-infrastructure-development:
+    name: Deploy Infrastructure to Development
+    uses: ./github/workflows/deploy-infrastructure.yml
+    needs: build
+    with:
+      environment: Development
+    secrets:
+      AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+      RESOURCE_GROUP: ${{ secrets.RESOURCE_GROUP }}
+      SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
+      ENVIRONMENT_NAME: Development
