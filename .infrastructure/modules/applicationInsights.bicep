@@ -35,3 +35,6 @@ resource connectionStringSecret 'Microsoft.KeyVault/vaults/secrets@2022-07-01' =
     value: applicationInsights.properties.ConnectionString
   }
 }
+
+output instrumentationKeySecretId string = instrumentationKeySecret.id
+output connectionStringSecretId string = connectionStringSecret.id
