@@ -94,5 +94,6 @@ module apimConfiguration './modules/apimConfiguration.bicep' = {
   params: {
     apimResourceName: apiManagement.outputs.name
     appInsightsInstrumentationKeySecretUri: secrets.outputs.apimAppInsightsInstrumentationKeySecretUri
+    appInsightsResourceName: apimApplicationInsights.outputs.name
   }
 }
