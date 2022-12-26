@@ -1,6 +1,36 @@
 param keyVaultName string
 param region string
 param applicationIds array
+param adminIds array
+
+var adminAccessPolicies = [for admin in adminIds: {
+  tenantId: subscription().tenantId
+  objectId: admin
+  permissions: {
+    secrets: [
+      'all'
+    ]
+    certificates: [
+      'all'
+    ]
+    keys: [
+      'all'
+    ]
+  }
+}]
+
+var appAccessPolicies = [for appId in applicationIds: {
+  tenantId: subscription().tenantId
+  objectId: appId
+  permissions: {
+    secrets: [
+      'get'
+      'list'
+    ]
+  }
+}]
+
+var accessPolicies = union(adminAccessPolicies, appAccessPolicies)
 
 resource keyVault 'Microsoft.KeyVault/vaults@2022-07-01' = {
   name: keyVaultName
@@ -11,16 +41,7 @@ resource keyVault 'Microsoft.KeyVault/vaults@2022-07-01' = {
       name: 'standard'
     }
     tenantId: subscription().tenantId
-    accessPolicies: [for applicationId in applicationIds: {
-      tenantId: subscription().tenantId
-      objectId: applicationId
-      permissions: {
-        secrets: [
-          'get'
-          'list'
-        ]
-      }
-  }]
+    accessPolicies: accessPolicies
     enabledForDeployment: true
     enabledForTemplateDeployment: true
     enabledForDiskEncryption: true

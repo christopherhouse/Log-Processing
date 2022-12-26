@@ -27,3 +27,5 @@ resource apiManagement 'Microsoft.ApiManagement/service@2022-04-01-preview' = {
 }
 
 output managedIdentityObjectId string = apiManagement.identity.principalId
+output name string = apiManagement.name
+output id string = apiManagement.id

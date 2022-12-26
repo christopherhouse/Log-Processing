@@ -7,6 +7,7 @@ param logAnalyticsWorkspaceName string
 param apimApplicationInsightsName string
 param functionAppApplicationInsightsName string
 param keyVaultName string
+param adminUserId string
 
 var storageAccountDeploymentName = 'storage-${storageAccountName}-${deployment().name}'
 var apiManagementDeploymentName = 'apiManagement-${apiManagementName}-${deployment().name}'
@@ -15,6 +16,7 @@ var applicationInsightsDeploymentName = 'applicationInsights-${apimApplicationIn
 var functionAppApplicationInsightsDeploymentName = 'applicationInsights-${functionAppApplicationInsightsName}-${deployment().name}'
 var keyVaultDeploymentName = 'keyVault-${keyVaultName}-${deployment().name}'
 var secretsDeploymentName = 'secrets-${deployment().name}'
+var apimConfigurationDeploymentName = 'apimConfiguration-${deployment().name}'
 
 module storageAccount './modules/storageAccount.bicep' = {
   name: storageAccountDeploymentName
@@ -72,6 +74,9 @@ module keyVault './modules/keyVault.bicep' = {
     applicationIds: [
       apiManagement.outputs.managedIdentityObjectId
     ]
+    adminIds: [
+      adminUserId
+    ]
   }
 }
 
@@ -81,5 +86,13 @@ module secrets './modules/secrets.bicep' = {
     keyVaultName: keyVault.outputs.name
     apimApplicationInisightsName: apimApplicationInsights.outputs.name
     functionAppApplicationInsightsName: functionAppApplicationInsights.outputs.name
+  }
+}
+
+module apimConfiguration './modules/apimConfiguration.bicep' = {
+  name: apimConfigurationDeploymentName
+  params: {
+    apimResourceName: apiManagement.outputs.name
+    appInsightsInstrumentationKeySecretUri: secrets.outputs.apimAppInsightsInstrumentationKeySecretUri
   }
 }
