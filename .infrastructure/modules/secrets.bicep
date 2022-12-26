@@ -54,7 +54,7 @@ resource cosmosDbConnectionStringSecret 'Microsoft.Keyvault/vaults/secrets@2022-
   name: 'cosmosDbConnectionString'
   parent: keyVault
   properties: {
-    value: listConnectionStrings(resourceId('Microsoft.DocumentDb/databaseAccounts', cosmosAccountName), '2022-98-15').connectionStrings[0].connectionString
+    value: listConnectionStrings(resourceId('Microsoft.DocumentDb/databaseAccounts', cosmosAccountName), '2022-08-15').connectionStrings[0].connectionString
   }
 }
 
