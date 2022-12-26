@@ -8,6 +8,7 @@ param apimApplicationInsightsName string
 param functionAppApplicationInsightsName string
 param keyVaultName string
 param adminUserId string
+param cosmosAccountName string
 
 var storageAccountDeploymentName = 'storage-${storageAccountName}-${deployment().name}'
 var apiManagementDeploymentName = 'apiManagement-${apiManagementName}-${deployment().name}'
@@ -17,6 +18,7 @@ var functionAppApplicationInsightsDeploymentName = 'applicationInsights-${functi
 var keyVaultDeploymentName = 'keyVault-${keyVaultName}-${deployment().name}'
 var secretsDeploymentName = 'secrets-${deployment().name}'
 var apimConfigurationDeploymentName = 'apimConfiguration-${deployment().name}'
+var cosmosDeploymentName = 'cosmos-${cosmosAccountName}-${deployment().name}'
 
 module storageAccount './modules/storageAccount.bicep' = {
   name: storageAccountDeploymentName
@@ -77,6 +79,14 @@ module keyVault './modules/keyVault.bicep' = {
     adminIds: [
       adminUserId
     ]
+  }
+}
+
+module cosmos './modules/cosmosDb.bicep' = {
+  name: cosmosDeploymentName
+  params: {
+    cosmosAccountName: cosmosAccountName
+    region: region
   }
 }
 
