@@ -26,3 +26,6 @@ resource keyVault 'Microsoft.KeyVault/vaults@2022-07-01' = {
     enabledForDiskEncryption: true
   }
 }
+
+output name string = keyVault.name
+output id string = keyVault.id

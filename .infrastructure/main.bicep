@@ -14,6 +14,7 @@ var logAnalyticsWorkspaceDeploymentName = 'logAnalyticsWorkspace-${logAnalyticsW
 var applicationInsightsDeploymentName = 'applicationInsights-${apimApplicationInsightsName}-${deployment().name}'
 var functionAppApplicationInsightsDeploymentName = 'applicationInsights-${functionAppApplicationInsightsName}-${deployment().name}'
 var keyVaultDeploymentName = 'keyVault-${keyVaultName}-${deployment().name}'
+var secretsDeploymentName = 'secrets-${deployment().name}'
 
 module storageAccount './modules/storageAccount.bicep' = {
   name: storageAccountDeploymentName
@@ -50,13 +51,7 @@ module apimApplicationInsights './modules/applicationInsights.bicep' = {
     applicationInsightsName: apimApplicationInsightsName
     region: region
     logAnalyticsWorkspaceId: logAnalyticsWorkspace.outputs.id
-    keyVaultName: keyVaultName
-    instrumentationKeySecretName: 'apimApplicationInsightsInstrumentationKey'
-    connectionStringSecretName: 'apimApplicationInsightsConnectionString'
   }
-  dependsOn:[
-    keyVault
-  ]
 }
 
 module functionAppApplicationInsights './modules/applicationInsights.bicep' = {
@@ -65,13 +60,8 @@ module functionAppApplicationInsights './modules/applicationInsights.bicep' = {
     applicationInsightsName: functionAppApplicationInsightsName
     region: region
     logAnalyticsWorkspaceId: logAnalyticsWorkspace.outputs.id
-    keyVaultName: keyVaultName
-    instrumentationKeySecretName: 'functionAppApplicationInsightsInstrumentationKey'
-    connectionStringSecretName: 'functionAppApplicationInsightsConnectionString'
   }
-  dependsOn:[
-    keyVault
-  ]
+
 }
 
 module keyVault './modules/keyVault.bicep' = {
@@ -82,5 +72,13 @@ module keyVault './modules/keyVault.bicep' = {
     applicationIds: [
       apiManagement.outputs.managedIdentityObjectId
     ]
+  }
+}
+
+module secrets './modules/secrets.bicep' = {
+  name: secretsDeploymentName
+  params: {
+    keyVaultName: keyVault.outputs.name
+    apimApplicationInisightsName: apimApplicationInsights.outputs.name
   }
 }
