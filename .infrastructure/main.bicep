@@ -80,5 +80,6 @@ module secrets './modules/secrets.bicep' = {
   params: {
     keyVaultName: keyVault.outputs.name
     apimApplicationInisightsName: apimApplicationInsights.outputs.name
+    functionAppApplicationInsightsName: functionAppApplicationInsights.outputs.name
   }
 }
