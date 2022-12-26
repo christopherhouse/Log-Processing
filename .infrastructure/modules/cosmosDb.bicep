@@ -24,3 +24,6 @@ resource cosmosAccount 'Microsoft.DocumentDB/databaseAccounts@2022-08-15' = {
     databaseAccountOfferType: 'Standard'
   }
 }
+
+output name string = cosmosAccount.name
+output id string = cosmosAccount.id

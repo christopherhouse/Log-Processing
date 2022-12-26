@@ -96,6 +96,7 @@ module secrets './modules/secrets.bicep' = {
     keyVaultName: keyVault.outputs.name
     apimApplicationInisightsName: apimApplicationInsights.outputs.name
     functionAppApplicationInsightsName: functionAppApplicationInsights.outputs.name
+    cosmosAccountName: cosmos.outputs.name
   }
 }
 
