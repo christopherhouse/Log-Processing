@@ -51,10 +51,10 @@
         "value": "cmh-logprocess-eh-cg-sbx"
       },
       "functionAppName": {
-        "value": "cmh-logprocess-fa-dev"
+        "value": "cmh-logprocess-fa-sbx"
       },
       "appServicePlanName": {
-        "value": "cmh-logprocess-asp-dev"
+        "value": "cmh-logprocess-asp-sbx"
       }
     }
   }

@@ -51,10 +51,10 @@
         "value": "cmh-logprocess-eh-cg-prd"
       },
       "functionAppName": {
-        "value": "cmh-logprocess-fa-dev"
+        "value": "cmh-logprocess-fa-prd"
       },
       "appServicePlanName": {
-        "value": "cmh-logprocess-asp-dev"
+        "value": "cmh-logprocess-asp-prd"
       }
     }
   }
