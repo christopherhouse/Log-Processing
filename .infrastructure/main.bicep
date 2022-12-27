@@ -118,6 +118,8 @@ module secrets './modules/secrets.bicep' = {
     apimApplicationInisightsName: apimApplicationInsights.outputs.name
     functionAppApplicationInsightsName: functionAppApplicationInsights.outputs.name
     cosmosAccountName: cosmos.outputs.name
+    storageAccountName: storageAccount.outputs.name
+    eventHubNamespaceName: eventHub.outputs.name
   }
 }
 

@@ -49,3 +49,5 @@ resource eventHubConsumerGroup 'Microsoft.EventHub/namespaces/eventhubs/consumer
   name: eventHubConsumerGroupName
   parent: eventHub
 }
+
+output name string = namespace.name
