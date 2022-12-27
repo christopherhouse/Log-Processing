@@ -15,6 +15,8 @@ param cosmosPartitionKey string
 param eventHubNamespaceName string
 param eventHubHubName string
 param eventHubConsumerGroupName string
+param functionAppName string
+param appServicePlanName string
 
 var storageAccountDeploymentName = 'storage-${storageAccountName}-${deployment().name}'
 var apiManagementDeploymentName = 'apiManagement-${apiManagementName}-${deployment().name}'
@@ -26,6 +28,7 @@ var secretsDeploymentName = 'secrets-${deployment().name}'
 var apimConfigurationDeploymentName = 'apimConfiguration-${deployment().name}'
 var cosmosDeploymentName = 'cosmos-${cosmosAccountName}-${deployment().name}'
 var eventHubDeploymentName = 'eventHub-${eventHubNamespaceName}-${deployment().name}'
+var functionAppDeploymentName = 'functionApp-${deployment().name}'
 
 module storageAccount './modules/storageAccount.bicep' = {
   name: storageAccountDeploymentName
@@ -107,6 +110,18 @@ module eventHub './modules/eventHub.bicep' = {
     eventHubNamespaceName: eventHubNamespaceName
     eventHubConsumerGroupName: eventHubConsumerGroupName
     region: region
+  }
+}
+
+module functionApp './modules/functionApp.bicep' = {
+  name: functionAppDeploymentName
+  params: {
+    appInsightsConnectionString: functionAppApplicationInsights.outputs.connectionString
+    appInsightsInstrumentationKey: functionAppApplicationInsights.outputs.instrumentationKey
+    appServicePlanName: appServicePlanName
+    functionAppName: functionAppName
+    region: region
+    storageAccountName: storageAccount.outputs.name
   }
 }
 
