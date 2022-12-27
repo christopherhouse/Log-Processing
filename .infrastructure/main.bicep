@@ -12,6 +12,8 @@ param cosmosAccountName string
 param cosmosDatabaseName string
 param cosmosContainerName string
 param cosmosPartitionKey string
+param eventHubNamespaceName string
+param eventHubHubName string
 
 var storageAccountDeploymentName = 'storage-${storageAccountName}-${deployment().name}'
 var apiManagementDeploymentName = 'apiManagement-${apiManagementName}-${deployment().name}'
@@ -22,6 +24,7 @@ var keyVaultDeploymentName = 'keyVault-${keyVaultName}-${deployment().name}'
 var secretsDeploymentName = 'secrets-${deployment().name}'
 var apimConfigurationDeploymentName = 'apimConfiguration-${deployment().name}'
 var cosmosDeploymentName = 'cosmos-${cosmosAccountName}-${deployment().name}'
+var eventHubDeploymentName = 'eventHub-${eventHubNamespaceName}-${deployment().name}'
 
 module storageAccount './modules/storageAccount.bicep' = {
   name: storageAccountDeploymentName
@@ -96,6 +99,16 @@ module cosmos './modules/cosmosDb.bicep' = {
   }
 }
 
+module eventHub './modules/eventHub.bicep' = {
+  name: eventHubDeploymentName
+  params: {
+    eventHubHubName: eventHubHubName
+    eventHubNamespaceName: eventHubNamespaceName
+    region: region
+  }
+}
+
+// secrets and apimConfiguration should always run towards the end of the deployment, ideally last
 module secrets './modules/secrets.bicep' = {
   name: secretsDeploymentName
   params: {
@@ -106,6 +119,7 @@ module secrets './modules/secrets.bicep' = {
   }
 }
 
+
 module apimConfiguration './modules/apimConfiguration.bicep' = {
   name: apimConfigurationDeploymentName
   params: {
@@ -114,3 +128,4 @@ module apimConfiguration './modules/apimConfiguration.bicep' = {
     appInsightsResourceName: apimApplicationInsights.outputs.name
   }
 }
+
