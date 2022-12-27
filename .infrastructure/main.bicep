@@ -119,7 +119,9 @@ module secrets './modules/secrets.bicep' = {
     functionAppApplicationInsightsName: functionAppApplicationInsights.outputs.name
     cosmosAccountName: cosmos.outputs.name
     storageAccountName: storageAccount.outputs.name
-    eventHubNamespaceName: eventHub.outputs.name
+    eventHubAccessPolicyApiVersion: eventHub.outputs.accessPolicyApiVersion
+    eventHubSendAccessPolicyId: eventHub.outputs.rootSendAccessKeyId
+    eventHubListenAccessPolicyId: eventHub.outputs.rootListenAccessKeyId
   }
 }
 
