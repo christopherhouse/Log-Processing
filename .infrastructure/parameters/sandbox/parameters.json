@@ -40,6 +40,12 @@
       },
       "cosmosPartitionKey": {
         "value": "/logDate"
+      },
+      "eventHubNamespaceName": {
+        "value": "cmh-logprocess-ehns-sbx"
+      },
+      "eventHubHubName": {
+        "value": "cmh-logprocess-eh-sbx"
       }
     }
   }
