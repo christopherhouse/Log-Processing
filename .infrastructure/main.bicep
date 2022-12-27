@@ -9,6 +9,9 @@ param functionAppApplicationInsightsName string
 param keyVaultName string
 param adminUserId string
 param cosmosAccountName string
+param cosmosDatabaseName string
+param cosmosContainerName string
+param cosmosPartitionKey string
 
 var storageAccountDeploymentName = 'storage-${storageAccountName}-${deployment().name}'
 var apiManagementDeploymentName = 'apiManagement-${apiManagementName}-${deployment().name}'
@@ -86,6 +89,9 @@ module cosmos './modules/cosmosDb.bicep' = {
   name: cosmosDeploymentName
   params: {
     cosmosAccountName: cosmosAccountName
+    databaseName: cosmosDatabaseName
+    containerName: cosmosContainerName
+    partitionKey: cosmosPartitionKey
     region: region
   }
 }

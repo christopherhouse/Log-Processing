@@ -1,4 +1,7 @@
 param cosmosAccountName string
+param databaseName string
+param containerName string
+param partitionKey string
 param region string
 
 resource cosmosAccount 'Microsoft.DocumentDB/databaseAccounts@2022-08-15' = {
@@ -22,6 +25,48 @@ resource cosmosAccount 'Microsoft.DocumentDB/databaseAccounts@2022-08-15' = {
       }
     ]
     databaseAccountOfferType: 'Standard'
+  }
+}
+
+resource database 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases@2022-08-15' = {
+  name: databaseName
+  parent: cosmosAccount
+  properties: {
+    resource: {
+      id: databaseName
+    }
+    options: {}
+  }
+}
+
+resource container 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers@2022-08-15' = {
+  name: containerName
+  parent: database
+  properties: {
+    resource: {
+      id: containerName
+      partitionKey: {
+        paths: [
+          partitionKey
+        ]
+        kind: 'Hash'
+      }
+      indexingPolicy: {
+        indexingMode: 'Consistent'
+        automatic: true
+        includedPaths: [
+          {
+            path: '/*'
+          }
+        ]
+        excludedPaths: [
+          {
+            path: '/"_etag"/?'
+          }
+        ]
+      }
+    }
+    options: {}
   }
 }
 

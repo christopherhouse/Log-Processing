@@ -31,6 +31,15 @@
       },
       "cosmosAccountName": {
         "value": "cmh-logprocess-cdb-prd"
+      },
+      "cosmosDatabaseName": {
+        "value": "cmh-logprocess-cdb-db-prd"
+      },
+      "cosmosContainerName": {
+        "value": "cmh-logprocess-cdb-cn-prd"
+      },
+      "cosmosPartitionKey": {
+        "value": "/logDate"
       }
     }
   }
