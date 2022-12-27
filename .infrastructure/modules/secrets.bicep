@@ -3,7 +3,12 @@ param apimApplicationInisightsName string
 param functionAppApplicationInsightsName string
 param cosmosAccountName string
 param storageAccountName string
-param eventHubNamespaceName string
+param eventHubSendAccessPolicyId string
+param eventHubListenAccessPolicyId string
+param eventHubAccessPolicyApiVersion string
+
+var eventHubSendConnectionString = listKeys(eventHubSendAccessPolicyId, eventHubAccessPolicyApiVersion).primaryConnectionString
+var eventHubListenConnectionString = listKeys(eventHubListenAccessPolicyId, eventHubAccessPolicyApiVersion).primaryConnectionString
 
 resource apimAppInsights 'Microsoft.Insights/components@2020-02-02' existing = {
   name: apimApplicationInisightsName
@@ -68,26 +73,11 @@ resource storageAccountConnectionStringSecret 'Microsoft.KeyVault/vaults/secrets
   }
 }
 
-resource eventHub 'Microsoft.EventHub/namespaces@2022-01-01-preview' existing = {
-  name: eventHubNamespaceName
-  scope: resourceGroup()
-}
-
-resource eventHubListenAccessPolicy 'Microsoft.EventHub/namespaces/AuthorizationRules@2022-01-01-preview' existing = {
-  name: 'rootListenAccessPolicy'
-  parent: eventHub
-}
-
-resource eventHubSendAccessPolicy 'Microsoft.EventHub/namespaces/authorizationRules@2022-01-01-preview' existing = {
-  name: 'rootSendAccessPolicy'
-  parent: eventHub
-}
-
 resource eventHubSendAccessPolicySecret 'Microsoft.KeyVault/vaults/secrets@2022-07-01' = {
   name: 'eventHubSendAccessPolicy'
   parent: keyVault
   properties: {
-    value: eventHubSendAccessPolicy.properties.primaryConnectionString
+    value: eventHubSendConnectionString
   }
 }
 
@@ -95,7 +85,7 @@ resource eventHubListenAccessPolicySecret 'Microsoft.KeyVault/vaults/secrets@202
   name: 'eventHubListenAccessPolicy'
   parent: keyVault
   properties: {
-    value: eventHubListenAccessPolicy.properties.primaryConnectionString
+    value: eventHubListenConnectionString
   }
 }
 

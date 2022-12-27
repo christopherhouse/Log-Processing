@@ -51,3 +51,7 @@ resource eventHubConsumerGroup 'Microsoft.EventHub/namespaces/eventhubs/consumer
 }
 
 output name string = namespace.name
+output rootListenAccessKeyId string = rootListenAccessPolicy.id
+output rootSendAccessKeyId string = rootSendAccessPolicy.id
+output accessPolicyApiVersion string = rootListenAccessPolicy.apiVersion
+
