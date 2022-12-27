@@ -49,6 +49,12 @@
       },
       "eventHubConsumerGroupName": {
         "value": "cmh-logprocess-eh-cg-prd"
+      },
+      "functionAppName": {
+        "value": "cmh-logprocess-fa-dev"
+      },
+      "appServicePlanName": {
+        "value": "cmh-logprocess-asp-dev"
       }
     }
   }
