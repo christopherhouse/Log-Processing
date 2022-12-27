@@ -31,7 +31,7 @@ resource rootListenAccessPolicy 'Microsoft.EventHub/namespaces/authorizationRule
   parent: namespace
   properties: {
     rights: [
-      'Send'
+      'Listen'
     ]
   }
 }
