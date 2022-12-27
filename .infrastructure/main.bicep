@@ -29,6 +29,7 @@ var apimConfigurationDeploymentName = 'apimConfiguration-${deployment().name}'
 var cosmosDeploymentName = 'cosmos-${cosmosAccountName}-${deployment().name}'
 var eventHubDeploymentName = 'eventHub-${eventHubNamespaceName}-${deployment().name}'
 var functionAppDeploymentName = 'functionApp-${deployment().name}'
+var accessPoliciesDeploymentName = 'accessPolicies-${deployment().name}'
 
 module storageAccount './modules/storageAccount.bicep' = {
   name: storageAccountDeploymentName
@@ -83,12 +84,7 @@ module keyVault './modules/keyVault.bicep' = {
   params: {
     keyVaultName: keyVaultName
     region: region
-    applicationIds: [
-      apiManagement.outputs.managedIdentityObjectId
-    ]
-    adminIds: [
-      adminUserId
-    ]
+    adminId: adminUserId
   }
 }
 
@@ -150,3 +146,13 @@ module apimConfiguration './modules/apimConfiguration.bicep' = {
   }
 }
 
+module accessPolicies './modules/accessPolicies.bicep' = {
+  name: accessPoliciesDeploymentName
+  params: {
+    applicationIds: [
+      apiManagement.outputs.managedIdentityObjectId
+      functionApp.outputs.managedIdentityObjectId
+    ]
+    keyVaultName: keyVault.outputs.name
+  }
+}

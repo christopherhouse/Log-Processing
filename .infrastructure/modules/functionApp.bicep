@@ -63,3 +63,5 @@ resource functionApp 'Microsoft.Web/sites@2022-03-01' = {
     }
   }
 }
+
+output managedIdentityObjectId string = functionApp.identity.principalId
