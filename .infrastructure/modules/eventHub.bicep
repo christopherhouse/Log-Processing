@@ -1,5 +1,6 @@
 param eventHubNamespaceName string
 param eventHubHubName string
+param eventHubConsumerGroupName string
 param region string
 
 resource namespace 'Microsoft.EventHub/namespaces@2022-01-01-preview' = {
@@ -15,6 +16,26 @@ resource namespace 'Microsoft.EventHub/namespaces@2022-01-01-preview' = {
   }
 }
 
+resource rootSendAccessPolicy 'Microsoft.EventHub/namespaces/authorizationRules@2022-01-01-preview' = {
+  name: 'rootSendAccessPolicy'
+  parent: namespace
+  properties: {
+    rights: [
+      'Send'
+    ]
+  }
+}
+
+resource rootListenAccessPolicy 'Microsoft.EventHub/namespaces/authorizationRules@2022-01-01-preview' = {
+  name: 'rootListenAccessPolicy'
+  parent: namespace
+  properties: {
+    rights: [
+      'Send'
+    ]
+  }
+}
+
 resource eventHub 'Microsoft.EventHub/namespaces/eventhubs@2022-01-01-preview' = {
   name: eventHubHubName
   parent: namespace
@@ -22,4 +43,9 @@ resource eventHub 'Microsoft.EventHub/namespaces/eventhubs@2022-01-01-preview' =
     partitionCount: 16
     messageRetentionInDays: 7
   }
+}
+
+resource eventHubConsumerGroup 'Microsoft.EventHub/namespaces/eventhubs/consumergroups@2022-01-01-preview' = {
+  name: eventHubConsumerGroupName
+  parent: eventHub
 }

@@ -46,6 +46,9 @@
       },
       "eventHubHubName": {
         "value": "cmh-logprocess-eh-dev"
+      },
+      "eventHubConsumerGroupName": {
+        "value": "cmh-logprocess-eh-cg-dev"
       }
     }
   }

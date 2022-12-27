@@ -14,6 +14,7 @@ param cosmosContainerName string
 param cosmosPartitionKey string
 param eventHubNamespaceName string
 param eventHubHubName string
+param eventHubConsumerGroupName string
 
 var storageAccountDeploymentName = 'storage-${storageAccountName}-${deployment().name}'
 var apiManagementDeploymentName = 'apiManagement-${apiManagementName}-${deployment().name}'
@@ -104,6 +105,7 @@ module eventHub './modules/eventHub.bicep' = {
   params: {
     eventHubHubName: eventHubHubName
     eventHubNamespaceName: eventHubNamespaceName
+    eventHubConsumerGroupName: eventHubConsumerGroupName
     region: region
   }
 }
