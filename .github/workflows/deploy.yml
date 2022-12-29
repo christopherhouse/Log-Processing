@@ -50,6 +50,10 @@ jobs:
           deploymentName: ${{ github.run_id }}
           subscriptionId: ${{ secrets.SUBSCRIPTION_ID }}
       
+      - name: Get Function App name
+        run: |
+          echo FUNCTIONAPP_NAME=$(jq -r .parameters.functionAppName.value ${{ format('{0}/parameters/{1}/parameters.json', env.INFRASTRUCTURE_ARTIFACT_PATH ,secrets.ENVIRONMENT_NAME) }}) >> $GITHUB_ENV
+      
       - name: Deploy Function App
         uses: azure/functions-action@v1
         with:
