@@ -118,10 +118,9 @@ module functionApp './modules/functionApp.bicep' = {
     functionAppName: functionAppName
     region: region
     storageAccountName: storageAccount.outputs.name
+    cosmosDbConnectionStringSecretUri: secrets.outputs.cosmosDbConnectionStringSecretUri
+    eventHubListenAccessPolicySecretUri: secrets.outputs.eventHubListenAccessPolicySecretUri
   }
-  dependsOn: [
-    secrets
-  ]
 }
 
 // secrets and apimConfiguration should always run towards the end of the deployment, ideally last
