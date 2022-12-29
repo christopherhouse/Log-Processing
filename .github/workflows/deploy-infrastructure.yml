@@ -47,6 +47,6 @@ jobs:
         with:
           resourceGroupName: ${{ secrets.RESOURCE_GROUP }}
           template: ./${{ env.INFRASTRUCTURE_ARTIFACT_PATH }}/main.bicep
-          parameters: ${{ format('${{ env.INFRASTRUCTURE_ARTIFACT_PATH }}/parameters/{0}/parameters.json', secrets.ENVIRONMENT_NAME) }}
+          parameters: ${{ format('{0}/parameters/{1}/parameters.json', env.INFRASTRUCTURE_ARTIFACT_PATH ,secrets.ENVIRONMENT_NAME) }}
           deploymentName: ${{ github.run_id }}
           subscriptionId: ${{ secrets.SUBSCRIPTION_ID }}
