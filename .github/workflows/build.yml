@@ -27,6 +27,7 @@ jobs:
         run: |
           pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
           dotnet build --configuration Release --output ./output
+          ls -al ./output
           popd
       
       - name: Upload Infrastructure Artifact
