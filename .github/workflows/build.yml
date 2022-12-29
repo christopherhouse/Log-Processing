@@ -1,0 +1,42 @@
+on:
+  workflow_call:
+    secrets:
+      AZURE_CREDENTIALS:
+        required: true
+
+jobs:
+  build-infrastructur-and-code:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    env:
+      AZURE_FUNCTIONAPP_PACKAGE_PATH: 'LogProcessing.Functions'
+      DOTNET_VERSION: '6.x'
+    steps:
+      - name: Checkout 
+        uses: actions/checkout@v2
+
+      - name: Build Infrastructure
+        run: az bicep build --file ./.infrastructure/main.bicep --outfile ./.infrastructure/main.json
+      
+      - name: Setup .Net Core Environment
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+      
+      - name: Build Function App
+        run: |
+          pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+          dotnet build --configuration Release --output ./output
+          popd
+      
+      - name: Upload Infrastructure Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: infrastructure-artifact
+          path: ./.infrastructure/
+      
+      - name: Upload Function App Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: functionapp-artifact
+          path: ./${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output/

@@ -19,15 +19,21 @@ jobs:
   deploy-infrastructure:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
+    env:
+      INFRASTRUCTURE_ARTIFACT_PATH: './infrastructure-artifact'
+      FUNCTIONAPP_ARTIFACT_PATH: './functionapp-artifact'
     steps:
-      - name: Checkout 
-        uses: actions/checkout@v2
-
       - name: Download Artifacts
         uses: actions/download-artifact@v2
         with:
-          name: infrastructure
-          path: ./.infrastructure/
+          name: infrastructure-artifact
+          path: ./infrastructure-artifact/
+      
+      - name: Download Function App Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: functionapp-artifact
+          path: ./functionapp-artifact/
       
       - name: Azure Login
         uses: azure/login@v1
@@ -38,7 +44,7 @@ jobs:
         uses: azure/arm-deploy@v1
         with:
           resourceGroupName: ${{ secrets.RESOURCE_GROUP }}
-          template: ./.infrastructure/main.bicep
-          parameters: ${{ format('./.infrastructure/parameters/{0}/parameters.json', secrets.ENVIRONMENT_NAME) }}
+          template: ./${{ env.INFRASTRUCTURE_ARTIFACT_PATH }}/main.bicep
+          parameters: ${{ format('{0}/parameters/{1}/parameters.json', env.INFRASTRUCTURE_ARTIFACT_PATH ,secrets.ENVIRONMENT_NAME) }}
           deploymentName: ${{ github.run_id }}
           subscriptionId: ${{ secrets.SUBSCRIPTION_ID }}
