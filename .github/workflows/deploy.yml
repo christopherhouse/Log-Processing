@@ -16,12 +16,13 @@ on:
         required: true
 
 jobs:
-  deploy-infrastructure:
+  deploy-infrastructure-and-functionapp:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     env:
       INFRASTRUCTURE_ARTIFACT_PATH: './infrastructure-artifact'
       FUNCTIONAPP_ARTIFACT_PATH: './functionapp-artifact'
+      FUNCTIONAPP_NAME: ''
     steps:
       - name: Download Artifacts
         uses: actions/download-artifact@v2
@@ -48,3 +49,9 @@ jobs:
           parameters: ${{ format('{0}/parameters/{1}/parameters.json', env.INFRASTRUCTURE_ARTIFACT_PATH ,secrets.ENVIRONMENT_NAME) }}
           deploymentName: ${{ github.run_id }}
           subscriptionId: ${{ secrets.SUBSCRIPTION_ID }}
+      
+      - name: Deploy Function App
+        uses: azure/functions-action@v1
+        with:
+          app-name: ${{ env.FUNCTIONAPP_NAME }}
+          package: ${ env.FUNCTIONAPP_ARTIFACT_PATH }}

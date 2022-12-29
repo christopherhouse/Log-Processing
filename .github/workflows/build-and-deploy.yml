@@ -12,7 +12,7 @@ jobs:
     
   deploy-infrastructure-development:
     name: Deploy Infrastructure to Development
-    uses: ./.github/workflows/deploy-infrastructure.yml
+    uses: ./.github/workflows/deploy.yml
     needs: build-infrastructur-and-code
     with:
       environment: Development
@@ -24,7 +24,7 @@ jobs:
 
   deploy-infrastructure-sandbox:
     name: Deploy Infrastructure to Sandbox
-    uses: ./.github/workflows/deploy-infrastructure.yml
+    uses: ./.github/workflows/deploy.yml
     needs: build-infrastructur-and-code
     with:
       environment: Sandbox
@@ -36,7 +36,7 @@ jobs:
   
   deploy-infrastructure-production:
     name: Deploy Infrastructure to Production
-    uses: ./.github/workflows/deploy-infrastructure.yml
+    uses: ./.github/workflows/deploy.yml
     needs: [ deploy-infrastructure-development, deploy-infrastructure-sandbox ]
     with:
       environment: Production
