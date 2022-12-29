@@ -33,5 +33,11 @@ jobs:
       - name: Upload Infrastructure Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: infrastructure
+          name: infrastructure-artifact
           path: ./.infrastructure/
+      
+      - name: Upload Function App Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: functionapp-artifact
+          path: ./${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output/

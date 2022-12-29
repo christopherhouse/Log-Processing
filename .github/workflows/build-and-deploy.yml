@@ -4,19 +4,6 @@ on:
 
 name: Build and Deploy
 jobs:
-  # build:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-
-  #     - name: Build Bicep Template
-  #       run: az bicep build --file ./.infrastructure/main.bicep --outfile ./.infrastructure/main.json
-      
-  #     - name: Upload Artifacts
-  #       uses: actions/upload-artifact@v3
-  #       with:
-  #         name: infrastructure
-  #         path: ./.infrastructure/
   build-infrastructur-and-code:
     name: Build Infrastructure and Code
     uses: ./.github/workflows/build.yml
