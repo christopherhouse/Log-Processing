@@ -6,21 +6,19 @@ resource keyVault 'Microsoft.KeyVault/vaults@2022-07-01' existing = {
   scope: resourceGroup()
 }
 
-resource appAccessPolicies 'Microsoft.KeyVault/vaults/accessPolicies@2022-07-01' = [for appId in applicationIds: {
+resource appAccessPolicies 'Microsoft.KeyVault/vaults/accessPolicies@2022-07-01' = {
   name: 'add'
   parent: keyVault
   properties: {
-    accessPolicies: [
-      {
-        tenantId: subscription().tenantId
-        objectId: appId
-        permissions: {
-          secrets: [
-            'get'
-            'list'
-          ]
-        }
+    accessPolicies: [for appId in applicationIds: {
+      tenantId: subscription().tenantId
+      objectId: appId
+      permissions: {
+        secrets: [
+          'get'
+          'list'
+        ]
       }
-    ]
+    }]
   }
-}]
+}
