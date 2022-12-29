@@ -119,6 +119,9 @@ module functionApp './modules/functionApp.bicep' = {
     region: region
     storageAccountName: storageAccount.outputs.name
   }
+  dependsOn: [
+    secrets
+  ]
 }
 
 // secrets and apimConfiguration should always run towards the end of the deployment, ideally last
