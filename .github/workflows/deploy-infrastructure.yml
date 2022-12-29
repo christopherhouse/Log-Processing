@@ -34,8 +34,6 @@ jobs:
         with:
           name: functionapp-artifact
           path: ./functionapp-artifact/
-
-      - run: ls -al
       
       - name: Azure Login
         uses: azure/login@v1
