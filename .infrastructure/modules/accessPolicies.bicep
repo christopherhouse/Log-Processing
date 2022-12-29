@@ -7,7 +7,7 @@ resource keyVault 'Microsoft.KeyVault/vaults@2022-07-01' existing = {
 }
 
 resource appAccessPolicies 'Microsoft.KeyVault/vaults/accessPolicies@2022-07-01' = [for appId in applicationIds: {
-  name: appId
+  name: 'add'
   parent: keyVault
   properties: {
     accessPolicies: [
