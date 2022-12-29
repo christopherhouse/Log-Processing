@@ -26,8 +26,16 @@ jobs:
       - name: Download Artifacts
         uses: actions/download-artifact@v2
         with:
-          name: infrastructure
+          name: infrastructure-artifact
           path: ./.infrastructure/
+      
+      - name: Download Function App Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: functionapp-artifact
+          path: ./functionapp-artifact/
+
+      - run: ls -al
       
       - name: Azure Login
         uses: azure/login@v1
