@@ -144,6 +144,9 @@ module apimConfiguration './modules/apimConfiguration.bicep' = {
     appInsightsInstrumentationKeySecretUri: secrets.outputs.apimAppInsightsInstrumentationKeySecretUri
     appInsightsResourceName: apimApplicationInsights.outputs.name
   }
+  dependsOn: [
+    accessPolicies
+  ]
 }
 
 module accessPolicies './modules/accessPolicies.bicep' = {
