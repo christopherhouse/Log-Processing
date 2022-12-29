@@ -10,6 +10,7 @@ jobs:
     environment: ${{ inputs.environment }}
     env:
       AZURE_FUNCTIONAPP_PACKAGE_PATH: 'LogProcessing.Functions'
+      DOTNET_VERSION: '6.x'
     steps:
       - name: Checkout 
         uses: actions/checkout@v2
@@ -20,16 +21,13 @@ jobs:
       - name: Setup .Net Core Environment
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: 6.x
+          dotnet-version: ${{ env.DOTNET_VERSION }}
       
       - name: Build Function App
         run: |
           pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-          mkdir ./output
-          ls -al
           dotnet build --configuration Release --output ./output
           popd
-          ls -al ./output
       
       - name: Upload Infrastructure Artifact
         uses: actions/upload-artifact@v3
