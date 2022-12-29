@@ -26,7 +26,7 @@ jobs:
   deploy-infrastructure-development:
     name: Deploy Infrastructure to Development
     uses: ./.github/workflows/deploy-infrastructure.yml
-    needs: build
+    needs: build-infrastructur-and-code
     with:
       environment: Development
     secrets:
@@ -38,7 +38,7 @@ jobs:
   deploy-infrastructure-sandbox:
     name: Deploy Infrastructure to Sandbox
     uses: ./.github/workflows/deploy-infrastructure.yml
-    needs: build
+    needs: build-infrastructur-and-code
     with:
       environment: Sandbox
     secrets:
