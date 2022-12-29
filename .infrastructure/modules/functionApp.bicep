@@ -5,6 +5,8 @@ param storageAccountName string
 param appInsightsInstrumentationKey string
 @secure()
 param appInsightsConnectionString string
+param cosmosDbConnectionStringSecretUri string
+param eventHubListenAccessPolicySecretUri string
 param region string
 
 resource appServicePlan 'Microsoft.Web/serverfarms@2022-03-01' = {
@@ -58,6 +60,14 @@ resource functionApp 'Microsoft.Web/sites@2022-03-01' = {
         {
           name: 'WEBSITE_CONTENTSHARE'
           value: toLower(functionAppName)
+        }
+        {
+          name: 'CosmosDbConnectionString'
+          value: '@Microsoft.KeyVault(SecretUri=${cosmosDbConnectionStringSecretUri})'
+        }
+        {
+          name: 'EventHubListenConnectionString'
+          value: '@Microsoft.KeyVault(SecretUri=${eventHubListenAccessPolicySecretUri})'
         }
       ]
     }
