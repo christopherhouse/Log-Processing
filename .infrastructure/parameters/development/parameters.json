@@ -1,0 +1,60 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "storageAccountName": {
+        "value": "cmhlogprocessdev"
+      },
+      "apiManagementName": {
+        "value": "cmh-logprocess-apim-dev"
+      },
+      "apiManagementPublisherEmail": {
+        "value": "chhouse@microsoft.com"
+      },
+      "apiManagementPublisherName": {
+        "value": "Christopher House"
+      },
+      "apimApplicationInsightsName": {
+        "value": "cmh-logprocess-ai-apim-dev"
+      },
+      "logAnalyticsWorkspaceName": {
+        "value": "cmh-logprocess-la-dev"
+      },
+      "functionAppApplicationInsightsName": {
+        "value": "cmh-logprocess-ai-fa-dev"
+      },
+      "keyVaultName": {
+        "value": "cmh-logprocess-kv-dev"
+      },
+      "adminUserId": {
+        "value": "c9be89aa-0783-4310-b73a-f81f4c3f5407"
+      },
+      "cosmosAccountName": {
+        "value": "cmh-logprocess-cdb-dev"
+      },
+      "cosmosDatabaseName": {
+        "value": "cmh-logprocess-cdb-db-dev"
+      },
+      "cosmosContainerName": {
+        "value": "cmh-logprocess-cdb-cn-dev"
+      },
+      "cosmosPartitionKey": {
+        "value": "/logDate"
+      },
+      "eventHubNamespaceName": {
+        "value": "cmh-logprocess-ehns-dev"
+      },
+      "eventHubHubName": {
+        "value": "cmh-logprocess-eh-dev"
+      },
+      "eventHubConsumerGroupName": {
+        "value": "cmh-logprocess-eh-cg-dev"
+      },
+      "functionAppName": {
+        "value": "cmh-logprocess-fa-dev"
+      },
+      "appServicePlanName": {
+        "value": "cmh-logprocess-asp-dev"
+      }
+    }
+  }

@@ -1,4 +1,7 @@
-on: [push]
+on:
+  push:
+  workflow_dispatch:
+
 name: Build and Deploy
 jobs:
   build:
@@ -21,6 +24,30 @@ jobs:
     needs: build
     with:
       environment: Development
+    secrets:
+      AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+      RESOURCE_GROUP: ${{ secrets.RESOURCE_GROUP }}
+      SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
+      ENVIRONMENT_NAME: ${{ secrets.ENVIRONMENT_NAME }}
+
+  deploy-infrastructure-sandbox:
+    name: Deploy Infrastructure to Sandbox
+    uses: ./.github/workflows/deploy-infrastructure.yml
+    needs: build
+    with:
+      environment: Sandbox
+    secrets:
+      AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+      SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
+      ENVIRONMENT_NAME: ${{ secrets.ENVIRONMENT_NAME }}
+      RESOURCE_GROUP: ${{ secrets.RESOURCE_GROUP }}
+  
+  deploy-infrastructure-production:
+    name: Deploy Infrastructure to Production
+    uses: ./.github/workflows/deploy-infrastructure.yml
+    needs: [ deploy-infrastructure-development, deploy-infrastructure-sandbox ]
+    with:
+      environment: Production
     secrets:
       AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
       RESOURCE_GROUP: ${{ secrets.RESOURCE_GROUP }}
