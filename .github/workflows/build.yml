@@ -25,6 +25,7 @@ jobs:
       - name: Build Function App
         run: |
           pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+          mkdir ./output
           dotnet build --configuration Release --output ./output
           popd
           ls -al ./output
