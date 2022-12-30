@@ -6,6 +6,7 @@ resource iotHub 'Microsoft.Devices/IotHubs@2022-04-30-preview' = {
   location: region
   sku: {
     name: 'B1'
+    capacity: 1
   }
   identity: {
     type: 'SystemAssigned'
