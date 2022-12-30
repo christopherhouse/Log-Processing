@@ -55,6 +55,9 @@
       },
       "appServicePlanName": {
         "value": "cmh-logprocess-asp-prd"
+      },
+      "containerRegistryName": {
+        "value": "cmhlpacrprd"
       }
     }
   }
