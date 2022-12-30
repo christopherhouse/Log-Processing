@@ -58,6 +58,9 @@
       },
       "containerRegistryName": {
         "value": "cmhlpacrprd"
+      },
+      "iotHubName": {
+        "value": "cmh-logprocess-iot-prd"
       }
     }
   }

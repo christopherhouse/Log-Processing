@@ -58,6 +58,9 @@
       },
       "containerRegistryName": {
         "value": "cmhlpacrsbx"
+      },
+      "iotHubName": {
+        "value": "cmh-logprocess-iot-sbx"
       }
     }
   }
