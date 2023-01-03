@@ -1,6 +1,7 @@
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
+using LogProcessing.Functions.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -29,14 +30,14 @@ namespace LogProcessing.Functions.Functions
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.Accepted, contentType: "application/json", bodyType: typeof(string), Description = "The OK response")]
         public async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
-            [EventHub("%eventHubName%", Connection = "eventHubConnectionString")] IAsyncCollector<string> events,
+            [EventHub("%eventHubName%", Connection = "eventHubListenConnectionString")] IAsyncCollector<RawLogEntry> events,
             ILogger logger)
         {
             _logger.LogInformation("C# HTTP trigger function processed a request.");
-            
-            var requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            await events.AddAsync(requestBody);
-            logger.LogInformation(requestBody);
+
+            var rawLogEntry = await RawLogEntry.FromStreamAsync(req.Body);
+            await events.AddAsync(rawLogEntry);
+
 
             return new AcceptedResult();
         }
