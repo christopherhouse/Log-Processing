@@ -18,7 +18,7 @@ on:
 jobs:
   deploy-infrastructure-and-functionapp:
     runs-on: ubuntu-latest
-   environment: ${{ inputs.environment }}
+    environment: ${{ inputs.environment }}
     env:
       INFRASTRUCTURE_ARTIFACT_PATH: './infrastructure-artifact'
       FUNCTIONAPP_ARTIFACT_PATH: './functionapp-artifact'
