@@ -55,6 +55,12 @@
       },
       "appServicePlanName": {
         "value": "cmh-logprocess-asp-prd"
+      },
+      "containerRegistryName": {
+        "value": "cmhlpacrprd"
+      },
+      "iotHubName": {
+        "value": "cmh-logprocess-iot-prd"
       }
     }
   }

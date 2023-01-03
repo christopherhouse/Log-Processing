@@ -17,7 +17,7 @@ on:
 
 jobs:
   deploy-infrastructure-and-functionapp:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     environment: ${{ inputs.environment }}
     env:
       INFRASTRUCTURE_ARTIFACT_PATH: './infrastructure-artifact'

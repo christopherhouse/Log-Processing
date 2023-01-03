@@ -17,6 +17,8 @@ param eventHubHubName string
 param eventHubConsumerGroupName string
 param functionAppName string
 param appServicePlanName string
+param containerRegistryName string
+param iotHubName string
 
 var storageAccountDeploymentName = 'storage-${storageAccountName}-${deployment().name}'
 var apiManagementDeploymentName = 'apiManagement-${apiManagementName}-${deployment().name}'
@@ -28,8 +30,10 @@ var secretsDeploymentName = 'secrets-${deployment().name}'
 var apimConfigurationDeploymentName = 'apimConfiguration-${deployment().name}'
 var cosmosDeploymentName = 'cosmos-${cosmosAccountName}-${deployment().name}'
 var eventHubDeploymentName = 'eventHub-${eventHubNamespaceName}-${deployment().name}'
-var functionAppDeploymentName = 'functionApp-${deployment().name}'
+var functionAppDeploymentName = 'functionApp-${functionAppName}-${deployment().name}'
 var accessPoliciesDeploymentName = 'accessPolicies-${deployment().name}'
+var containerRegistryDeploymentName = 'containerRegistry-${containerRegistryName}-${deployment().name}'
+var iotHubDeploymentName = 'iotHub-${iotHubName}-${deployment().name}'
 
 module storageAccount './modules/storageAccount.bicep' = {
   name: storageAccountDeploymentName
@@ -120,6 +124,22 @@ module functionApp './modules/functionApp.bicep' = {
     storageAccountName: storageAccount.outputs.name
     cosmosDbConnectionStringSecretUri: secrets.outputs.cosmosDbConnectionStringSecretUri
     eventHubListenAccessPolicySecretUri: secrets.outputs.eventHubListenAccessPolicySecretUri
+  }
+}
+
+module registry './modules/containerRegistry.bicep' = {
+  name: containerRegistryDeploymentName
+  params: {
+    registryName: containerRegistryName
+    region: region
+  }
+}
+
+module iotHub './modules/iotHub.bicep' = {
+  name: iotHubDeploymentName
+  params: {
+    iotHubName: iotHubName
+    region: region
   }
 }
 
