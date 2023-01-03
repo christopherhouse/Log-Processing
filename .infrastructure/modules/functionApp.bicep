@@ -7,6 +7,7 @@ param appInsightsInstrumentationKey string
 param appInsightsConnectionString string
 param cosmosDbConnectionStringSecretUri string
 param eventHubListenAccessPolicySecretUri string
+param eventHubName string
 param region string
 
 resource appServicePlan 'Microsoft.Web/serverfarms@2022-03-01' = {
@@ -66,8 +67,12 @@ resource functionApp 'Microsoft.Web/sites@2022-03-01' = {
           value: '@Microsoft.KeyVault(SecretUri=${cosmosDbConnectionStringSecretUri})'
         }
         {
-          name: 'EventHubListenConnectionString'
+          name: 'eventHubListenConnectionString'
           value: '@Microsoft.KeyVault(SecretUri=${eventHubListenAccessPolicySecretUri})'
+        }
+        {
+          name: 'eventHubName'
+          value: eventHubName
         }
       ]
     }

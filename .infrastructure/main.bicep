@@ -124,6 +124,7 @@ module functionApp './modules/functionApp.bicep' = {
     storageAccountName: storageAccount.outputs.name
     cosmosDbConnectionStringSecretUri: secrets.outputs.cosmosDbConnectionStringSecretUri
     eventHubListenAccessPolicySecretUri: secrets.outputs.eventHubListenAccessPolicySecretUri
+    eventHubName: eventHubHubName
   }
 }
 
