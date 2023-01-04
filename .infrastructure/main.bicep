@@ -157,7 +157,7 @@ module secrets './modules/secrets.bicep' = {
     storageAccountName: storageAccount.outputs.name
     eventHubAccessPolicyApiVersion: eventHub.outputs.accessPolicyApiVersion
     eventHubSendAccessPolicyId: eventHub.outputs.hubSendAccessKeyId
-    eventHubListenAccessPolicyId: eventHub.outputs.hubSendAccessKeyId
+    eventHubListenAccessPolicyId: eventHub.outputs.hubListenAccessKeyId
   }
 }
 
