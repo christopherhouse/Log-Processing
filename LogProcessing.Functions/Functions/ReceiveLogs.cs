@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
@@ -30,9 +31,11 @@ namespace LogProcessing.Functions.Functions
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.Accepted, contentType: "application/json", bodyType: typeof(string), Description = "The OK response")]
         public async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
-            [EventHub("%eventHubName%", Connection = "eventHubListenConnectionString")] IAsyncCollector<RawLogEntry> events,
+            [EventHub("%eventHubName%", Connection = "eventHubSendConnectionString")] IAsyncCollector<RawLogEntry> events,
             ILogger logger)
         {
+            var cs = Environment.GetEnvironmentVariable("eventHubSendConnectionString");
+
             _logger.LogInformation("C# HTTP trigger function processed a request.");
 
             var rawLogEntry = await RawLogEntry.FromStreamAsync(req.Body);
