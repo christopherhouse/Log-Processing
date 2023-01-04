@@ -123,8 +123,8 @@ module functionApp './modules/functionApp.bicep' = {
     region: region
     storageAccountName: storageAccount.outputs.name
     cosmosDbConnectionStringSecretUri: secrets.outputs.cosmosDbConnectionStringSecretUri
-    eventHubSendAccessPolicySecretUri: secrets.outputs.eventHubListenAccessPolicySecretUri
-    eventHubListenAccessPolicySecretUri: secrets.outputs.eventHubSendAccessPolicySecretUri
+    eventHubSendAccessPolicySecretUri: secrets.outputs.eventHubSendAccessPolicySecretUri
+    eventHubListenAccessPolicySecretUri: secrets.outputs.eventHubListenAccessPolicySecretUri
     eventHubName: eventHubHubName
     eventHubConsumerGroup: eventHubConsumerGroupName
   }
