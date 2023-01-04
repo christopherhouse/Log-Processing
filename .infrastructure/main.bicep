@@ -156,7 +156,7 @@ module secrets './modules/secrets.bicep' = {
     cosmosAccountName: cosmos.outputs.name
     storageAccountName: storageAccount.outputs.name
     eventHubAccessPolicyApiVersion: eventHub.outputs.accessPolicyApiVersion
-    eventHubSendAccessPolicyId: eventHub.outputs.hubSendAccessKeyId
+    eventHubSendAccessPolicyId: eventHub.outputs.rootSendAccessKeyId
     eventHubListenAccessPolicyId: eventHub.outputs.hubListenAccessKeyId
   }
 }

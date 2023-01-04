@@ -25,9 +25,9 @@ resource eventHub 'Microsoft.EventHub/namespaces/eventhubs@2022-01-01-preview' =
   }
 }
 
-resource hubSendAccessPolicy 'Microsoft.EventHub/namespaces/eventhubs/authorizationRules@2022-01-01-preview' = {
-  name: 'hubSendAccessPolicy'
-  parent: eventHub
+resource rootSendAccessPolicy 'Microsoft.EventHub/namespaces/authorizationRules@2022-01-01-preview' = {
+  name: 'rootSendAccessPolicy'
+  parent: namespace
   properties: {
     rights: [
       'Send'
@@ -53,6 +53,6 @@ resource eventHubConsumerGroup 'Microsoft.EventHub/namespaces/eventhubs/consumer
 
 output name string = namespace.name
 output hubListenAccessKeyId string = hubListenAccessPolicy.id
-output hubSendAccessKeyId string = hubSendAccessPolicy.id
+output rootSendAccessKeyId string = rootSendAccessPolicy.id
 output accessPolicyApiVersion string = hubListenAccessPolicy.apiVersion
 
