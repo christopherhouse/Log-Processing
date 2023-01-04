@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Azure.Messaging.EventHubs;
 using Microsoft.Azure.WebJobs;
+using Microsoft.Azure.WebJobs.Extensions.DurableTask;
 using Microsoft.Extensions.Logging;
 
 namespace LogProcessing.Functions.Functions
@@ -12,7 +13,9 @@ namespace LogProcessing.Functions.Functions
     public static class ProcessParsedLogs
     {
         [FunctionName("ProcessParsedLogs")]
-        public static async Task Run([EventHubTrigger("%eventHubName%", Connection = "eventHubListenConnectionString", ConsumerGroup = "%eventHubConsumerGroup%")] EventData[] events, ILogger log)
+        public static async Task Run([EventHubTrigger("%eventHubName%", Connection = "eventHubListenConnectionString", ConsumerGroup = "%eventHubConsumerGroup%")] EventData[] events,
+            [DurableClient] IDurableClient durableClient,
+            ILogger log)
         {
             var exceptions = new List<Exception>();
 
@@ -21,7 +24,7 @@ namespace LogProcessing.Functions.Functions
                 try
                 {
                     // Replace these two lines with your processing logic.
-                    log.LogInformation($"C# Event Hub trigger function processed a message: {eventData.EventBody}");
+                    log.LogInformation($"C# Event Hub trigger function processed a message: {eventData.EventBody.ToString()}");
                     await Task.Yield();
                 }
                 catch (Exception e)
