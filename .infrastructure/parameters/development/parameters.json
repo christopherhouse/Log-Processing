@@ -51,7 +51,7 @@
         "value": "cmh-logprocess-eh-cg-dev"
       },
       "functionAppName": {
-        "value": "cmh-logprocess-fa-dev"
+        "value": "cmh-logprocess-fa-dev-2"
       },
       "appServicePlanName": {
         "value": "cmh-logprocess-asp-dev"
