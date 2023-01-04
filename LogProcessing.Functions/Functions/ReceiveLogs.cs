@@ -31,7 +31,7 @@ namespace LogProcessing.Functions.Functions
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.Accepted, contentType: "application/json", bodyType: typeof(string), Description = "The OK response")]
         public async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
-            [EventHub("%eventHubName%", Connection = "eventHubSendConnectionString")] IAsyncCollector<RawLogEntry> events,
+            [EventHub("%eventHubName%", Connection = "eventHubSendConnectionString")] IAsyncCollector<ParsedLogEntry> events,
             ILogger logger)
         {
             var cs = Environment.GetEnvironmentVariable("eventHubSendConnectionString");
@@ -39,7 +39,16 @@ namespace LogProcessing.Functions.Functions
             _logger.LogInformation("C# HTTP trigger function processed a request.");
 
             var rawLogEntry = await RawLogEntry.FromStreamAsync(req.Body);
-            await events.AddAsync(rawLogEntry);
+
+            if (rawLogEntry.IsFirewallLogEntry())
+            {
+                var parsedLogEntry = rawLogEntry.ToParsedLogEntry();
+                await events.AddAsync(parsedLogEntry);
+            }
+            else
+            {
+                _logger.LogInformation("Received message that was not a firewall drop");
+            }
 
 
             return new AcceptedResult();
