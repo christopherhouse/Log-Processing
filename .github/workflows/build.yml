@@ -33,7 +33,7 @@ jobs:
         uses: vimtor/action-zip@v1
         with:
           files: ./${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output
-          output: ./${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output/functionApp.zip
+          dest: ./${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output/functionApp.zip
 
       - name: Upload Infrastructure Artifact
         uses: actions/upload-artifact@v3
