@@ -19,6 +19,7 @@ param functionAppName string
 param appServicePlanName string
 param containerRegistryName string
 param iotHubName string
+param maxQueueDepth int
 
 var storageAccountDeploymentName = 'storage-${storageAccountName}-${deployment().name}'
 var apiManagementDeploymentName = 'apiManagement-${apiManagementName}-${deployment().name}'
@@ -123,10 +124,13 @@ module functionApp './modules/functionApp.bicep' = {
     region: region
     storageAccountName: storageAccount.outputs.name
     cosmosDbConnectionStringSecretUri: secrets.outputs.cosmosDbConnectionStringSecretUri
+    cosmosDbDatabaseName: cosmosDatabaseName
+    cosmosDbContainerName: cosmosContainerName
     eventHubSendAccessPolicySecretUri: secrets.outputs.eventHubSendAccessPolicySecretUri
     eventHubListenAccessPolicySecretUri: secrets.outputs.eventHubListenAccessPolicySecretUri
     eventHubName: eventHubHubName
     eventHubConsumerGroup: eventHubConsumerGroupName
+    maxQueueDepth: maxQueueDepth
   }
 }
 

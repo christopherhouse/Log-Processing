@@ -40,7 +40,10 @@ public class GeocodeIpAddressBatchActivity
         foreach (var result in body)
         {
             var logEntry = logs.First(_ => _.SourceIpAddress == result.SourceIpAddress);
-            var entity = new GeocodeResultEntity(logEntry.Time, result);
+            var entity = new GeocodeResultEntity(logEntry.Time, result)
+            {
+                Id = Guid.NewGuid().ToString()
+            };
             await output.AddAsync(entity);
         }
     }
