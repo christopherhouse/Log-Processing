@@ -1,7 +1,7 @@
 using System;
-using System.IO;
 using System.Net;
 using System.Threading.Tasks;
+using System.Web.Http;
 using LogProcessing.Functions.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +11,6 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Newtonsoft.Json;
 
 namespace LogProcessing.Functions.Functions
 {
@@ -34,24 +33,31 @@ namespace LogProcessing.Functions.Functions
             [EventHub("%eventHubName%", Connection = "eventHubSendConnectionString")] IAsyncCollector<ParsedLogEntry> events,
             ILogger logger)
         {
-            var cs = Environment.GetEnvironmentVariable("eventHubSendConnectionString");
+            IActionResult result = null;
 
-            _logger.LogInformation("C# HTTP trigger function processed a request.");
-
-            var rawLogEntry = await RawLogEntry.FromStreamAsync(req.Body);
-
-            if (rawLogEntry.IsFirewallLogEntry())
+            try
             {
-                var parsedLogEntry = rawLogEntry.ToParsedLogEntry();
-                await events.AddAsync(parsedLogEntry);
+                var rawLogEntry = await RawLogEntry.FromStreamAsync(req.Body);
+
+                if (rawLogEntry.IsFirewallLogEntry())
+                {
+                    var parsedLogEntry = rawLogEntry.ToParsedLogEntry();
+                    await events.AddAsync(parsedLogEntry);
+                }
+                else
+                {
+                    _logger.LogInformation("Received message that was not a firewall drop");
+                }
+
+                result = new OkResult();
             }
-            else
+            catch (Exception e)
             {
-                _logger.LogInformation("Received message that was not a firewall drop");
+                _logger.LogError(e, $"Error in ReceiveLogs: {e.Message}");
+                result = new InternalServerErrorResult();
             }
 
-
-            return new AcceptedResult();
+            return result;
         }
     }
 }

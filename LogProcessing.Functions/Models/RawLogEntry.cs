@@ -55,45 +55,55 @@ public class RawLogEntry
 
     public ParsedLogEntry ToParsedLogEntry()
     {
-        var parsedLogEntry = new ParsedLogEntry
+        ParsedLogEntry parsedLogEntry = null;
+
+        try
         {
-            Time = this.Time
-        };
-
-        var messageItems = Message.Split(' ');
-        var messageItemKeyValuePairs = messageItems.Select(item => item.Split('='))
-            .ToDictionary(itemArray =>
+            parsedLogEntry = new ParsedLogEntry
             {
-                var item = itemArray[0];
+                Time = this.Time
+            };
 
-                if (item == "LEN")
+            var messageItems = Message.Split(' ');
+            var messageItemKeyValuePairs = messageItems.Select(item => item.Split('='))
+                .ToDictionary(itemArray =>
                 {
-                    item = Guid.NewGuid().ToString();
-                }
+                    var item = itemArray[0];
 
-                return item;
-            }, itemArray =>
-            {
-                var item = string.Empty;
-                if (itemArray.Length == 2)
+                    if (item == "LEN")
+                    {
+                        item = Guid.NewGuid().ToString();
+                    }
+
+                    return item;
+                }, itemArray =>
                 {
-                    item = itemArray[1];
-                }
+                    var item = string.Empty;
+                    if (itemArray.Length == 2)
+                    {
+                        item = itemArray[1];
+                    }
 
-                return item;
-            });
+                    return item;
+                });
 
-        var propertyInfos = typeof(ParsedLogEntry).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            var propertyInfos = typeof(ParsedLogEntry).GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
-        foreach (var propertyInfo in propertyInfos)
-        {
-            var attribute = propertyInfo.GetCustomAttribute<LogEntryPropertyNameAttribute>();
-
-            if (attribute != null)
+            foreach (var propertyInfo in propertyInfos)
             {
-                var value = messageItemKeyValuePairs[attribute.PropertyName];
-                propertyInfo.SetValue(parsedLogEntry, value);
+                var attribute = propertyInfo.GetCustomAttribute<LogEntryPropertyNameAttribute>();
+
+                if (attribute != null && messageItemKeyValuePairs.ContainsKey(attribute.PropertyName))
+                {
+                    var value = messageItemKeyValuePairs[attribute.PropertyName];
+                    propertyInfo.SetValue(parsedLogEntry, value);
+                }
             }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Exception caught when mapping log entry fields: {ex.Message}");
+            throw;
         }
 
         return parsedLogEntry;
