@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace LogProcessing.Functions.Models.Attributes;
+﻿namespace LogProcessing.Functions.Models.Attributes;
 
 public class LogEntryPropertyNameAttribute : Attribute
 {

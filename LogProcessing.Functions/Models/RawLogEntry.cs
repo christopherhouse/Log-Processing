@@ -1,11 +1,7 @@
-﻿using System;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using LogProcessing.Functions.Models.Attributes;
-using Newtonsoft.Json;
 
 namespace LogProcessing.Functions.Models;
 

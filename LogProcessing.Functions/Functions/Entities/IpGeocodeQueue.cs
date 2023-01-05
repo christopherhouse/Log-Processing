@@ -1,11 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using LogProcessing.Functions.Models;
+﻿using LogProcessing.Functions.Models;
 using Microsoft.ApplicationInsights;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.DurableTask;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 
 namespace LogProcessing.Functions.Functions.Entities;
 
@@ -14,13 +10,13 @@ public class IpGeocodeQueue
 {
     private readonly TelemetryClient _telemetryClient;
     private readonly ILogger<IpGeocodeQueue> _logger;
-    private const int MAX_QUEUE_DEPTH = 100;  // hard coded is fine since this limit won't change
+    private static int _maxQueueDepth = Convert.ToInt32(Environment.GetEnvironmentVariable("maxQueueDepth"));
 
     public IpGeocodeQueue(TelemetryClient telemetryClient, ILogger<IpGeocodeQueue> logger)
     {
         _telemetryClient = telemetryClient;
         _logger = logger;
-        GeocodeBatchQueue = new List<ParsedLogEntry>(MAX_QUEUE_DEPTH);
+        GeocodeBatchQueue = new List<ParsedLogEntry>(_maxQueueDepth);
     }
 
     [JsonProperty(nameof(GeocodeBatchQueue))]
@@ -33,19 +29,21 @@ public class IpGeocodeQueue
         _logger.LogInformation($"Added source IP {logEntry.SourceIpAddress} to queue");
         _telemetryClient.TrackEvent("QueueItemAdded", new Dictionary<string, string>{{"source", logEntry.SourceIpAddress}});
 
-        if (GeocodeBatchQueue.Count > (MAX_QUEUE_DEPTH - 1))
+        if (GeocodeBatchQueue.Count > (_maxQueueDepth - 1))
         {
             var batchToRun = new List<ParsedLogEntry>();
             var counter = 0;
 
-            while (counter < MAX_QUEUE_DEPTH)
+            while (counter < _maxQueueDepth)
             {
                 var itemToAdd = GeocodeBatchQueue[counter];
                 batchToRun.Add(itemToAdd);
                 counter++;
             }
 
-            GeocodeBatchQueue.RemoveRange(0, MAX_QUEUE_DEPTH);
+            GeocodeBatchQueue.RemoveRange(0, _maxQueueDepth);
+
+            Entity.Current.StartNewOrchestration(nameof(GeocodeIpAddressBatchOrchestration), batchToRun);
 
             _telemetryClient.TrackEvent("QueueBatchCreated");
         }

@@ -1,9 +1,7 @@
-using System.Threading.Tasks;
 using LogProcessing.Functions.Functions.Entities;
 using LogProcessing.Functions.Models;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.DurableTask;
-using Microsoft.Extensions.Logging;
 
 namespace LogProcessing.Functions.Functions
 {
