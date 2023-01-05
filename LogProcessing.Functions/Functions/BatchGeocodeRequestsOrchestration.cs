@@ -1,21 +1,31 @@
-using System.Collections.Generic;
-using System.Net.Http;
 using System.Threading.Tasks;
+using LogProcessing.Functions.Functions.Entities;
 using LogProcessing.Functions.Models;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.DurableTask;
-using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.Azure.WebJobs.Host;
 using Microsoft.Extensions.Logging;
 
 namespace LogProcessing.Functions.Functions
 {
     public class BatchGeocodeRequestsOrchestration
     {
+        private readonly ILogger<BatchGeocodeRequestsOrchestration> _logger;
+
+        public BatchGeocodeRequestsOrchestration(ILogger<BatchGeocodeRequestsOrchestration> logger)
+        {
+            _logger = logger;
+        }
+
         [FunctionName((nameof(BatchGeocodeRequestsOrchestration)))]
         public async Task RunOrchestrator([OrchestrationTrigger] IDurableOrchestrationContext context)
         {
             var logEntry = context.GetInput<ParsedLogEntry>();
+
+            _logger.LogInformation("Adding log entry to queue");
+
+            await context.CallEntityAsync(new EntityId(nameof(IpGeocodeQueue), nameof(IpGeocodeQueue)),
+                nameof(IpGeocodeQueue.AddLogEntryToQueue),
+                logEntry);
         }
     }
 }
