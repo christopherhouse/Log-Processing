@@ -74,7 +74,7 @@ public class RawLogEntry
                 }
 
                 messageItemKeyValuePairs.Add(key,
-                    itemArray.Length > 1 ? itemArray[0] : null);
+                    itemArray.Length > 1 ? itemArray[1] : null);
             }
 
             var propertyInfos = typeof(ParsedLogEntry).GetProperties(BindingFlags.Public | BindingFlags.Instance);
