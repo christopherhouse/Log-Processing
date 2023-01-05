@@ -61,27 +61,21 @@ public class RawLogEntry
             };
 
             var messageItems = Message.Split(' ');
-            var messageItemKeyValuePairs = messageItems.Select(item => item.Split('='))
-                .ToDictionary(itemArray =>
+            var messageItemKeyValuePairs = new Dictionary<string, string>();
+
+            foreach (var item in messageItems)
+            {
+                var itemArray = item.Split('=');
+                var key = itemArray[0];
+
+                if (messageItemKeyValuePairs.ContainsKey(itemArray[0]))
                 {
-                    var item = itemArray[0];
+                    key = $"key{item.GetHashCode()}";
+                }
 
-                    if (item == "LEN")
-                    {
-                        item = Guid.NewGuid().ToString();
-                    }
-
-                    return item;
-                }, itemArray =>
-                {
-                    var item = string.Empty;
-                    if (itemArray.Length == 2)
-                    {
-                        item = itemArray[1];
-                    }
-
-                    return item;
-                });
+                messageItemKeyValuePairs.Add(key,
+                    itemArray.Length > 1 ? itemArray[0] : null);
+            }
 
             var propertyInfos = typeof(ParsedLogEntry).GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
