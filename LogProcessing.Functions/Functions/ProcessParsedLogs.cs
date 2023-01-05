@@ -4,17 +4,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Azure.Messaging.EventHubs;
+using LogProcessing.Functions.Models;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.DurableTask;
 using Microsoft.Extensions.Logging;
 
 namespace LogProcessing.Functions.Functions
 {
-    public static class ProcessParsedLogs
+    public class ProcessParsedLogs
     {
+        private readonly ILogger<ProcessParsedLogs> _logger;
+
+        public ProcessParsedLogs(ILogger<ProcessParsedLogs> logger)
+        {
+            _logger = logger;
+        }
+
         [FunctionName("ProcessParsedLogs")]
-        public static async Task Run([EventHubTrigger("%eventHubName%", Connection = "eventHubListenConnectionString", ConsumerGroup = "%eventHubConsumerGroup%")] EventData[] events,
-            [DurableClient] IDurableClient durableClient,
+        public async Task Run([EventHubTrigger("%eventHubName%", Connection = "eventHubListenConnectionString", ConsumerGroup = "%eventHubConsumerGroup%")] EventData[] events,
+            [DurableClient] IDurableOrchestrationClient starter,
             ILogger log)
         {
             var exceptions = new List<Exception>();
@@ -23,8 +31,12 @@ namespace LogProcessing.Functions.Functions
             {
                 try
                 {
-                    // Replace these two lines with your processing logic.
-                    log.LogInformation($"C# Event Hub trigger function processed a message: {eventData.EventBody.ToString()}");
+                    var parsedLogEntry = eventData.EventBody.ToObjectFromJson<ParsedLogEntry>();
+                    var instanceId =
+                        await starter.StartNewAsync(nameof(BatchGeocodeRequestsOrchestration), parsedLogEntry);
+
+                    _logger.LogInformation($"Started orchestration {instanceId} for source IP {parsedLogEntry.SourceIpAddress}");
+
                     await Task.Yield();
                 }
                 catch (Exception e)
