@@ -16,6 +16,15 @@ resource namespace 'Microsoft.EventHub/namespaces@2022-01-01-preview' = {
   }
 }
 
+resource eventHub 'Microsoft.EventHub/namespaces/eventhubs@2022-01-01-preview' = {
+  name: eventHubHubName
+  parent: namespace
+  properties: {
+    partitionCount: 16
+    messageRetentionInDays: 7
+  }
+}
+
 resource rootSendAccessPolicy 'Microsoft.EventHub/namespaces/authorizationRules@2022-01-01-preview' = {
   name: 'rootSendAccessPolicy'
   parent: namespace
@@ -26,9 +35,9 @@ resource rootSendAccessPolicy 'Microsoft.EventHub/namespaces/authorizationRules@
   }
 }
 
-resource rootListenAccessPolicy 'Microsoft.EventHub/namespaces/authorizationRules@2022-01-01-preview' = {
-  name: 'rootListenAccessPolicy'
-  parent: namespace
+resource hubListenAccessPolicy 'Microsoft.EventHub/namespaces/eventhubs/authorizationRules@2022-01-01-preview' = {
+  name: 'hubListenAccessPolicy'
+  parent: eventHub
   properties: {
     rights: [
       'Listen'
@@ -36,14 +45,6 @@ resource rootListenAccessPolicy 'Microsoft.EventHub/namespaces/authorizationRule
   }
 }
 
-resource eventHub 'Microsoft.EventHub/namespaces/eventhubs@2022-01-01-preview' = {
-  name: eventHubHubName
-  parent: namespace
-  properties: {
-    partitionCount: 16
-    messageRetentionInDays: 7
-  }
-}
 
 resource eventHubConsumerGroup 'Microsoft.EventHub/namespaces/eventhubs/consumergroups@2022-01-01-preview' = {
   name: eventHubConsumerGroupName
@@ -51,7 +52,7 @@ resource eventHubConsumerGroup 'Microsoft.EventHub/namespaces/eventhubs/consumer
 }
 
 output name string = namespace.name
-output rootListenAccessKeyId string = rootListenAccessPolicy.id
+output hubListenAccessKeyId string = hubListenAccessPolicy.id
 output rootSendAccessKeyId string = rootSendAccessPolicy.id
-output accessPolicyApiVersion string = rootListenAccessPolicy.apiVersion
+output accessPolicyApiVersion string = hubListenAccessPolicy.apiVersion
 

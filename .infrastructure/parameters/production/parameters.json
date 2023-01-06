@@ -61,6 +61,9 @@
       },
       "iotHubName": {
         "value": "cmh-logprocess-iot-prd"
+      },
+      "maxQueueDepth": {
+        "value": 100
       }
     }
   }

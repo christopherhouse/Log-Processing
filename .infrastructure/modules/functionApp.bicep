@@ -6,7 +6,13 @@ param appInsightsInstrumentationKey string
 @secure()
 param appInsightsConnectionString string
 param cosmosDbConnectionStringSecretUri string
+param cosmosDbDatabaseName string
+param cosmosDbContainerName string
+param eventHubSendAccessPolicySecretUri string
 param eventHubListenAccessPolicySecretUri string
+param eventHubName string
+param eventHubConsumerGroup string
+param maxQueueDepth int = 100
 param region string
 
 resource appServicePlan 'Microsoft.Web/serverfarms@2022-03-01' = {
@@ -62,12 +68,36 @@ resource functionApp 'Microsoft.Web/sites@2022-03-01' = {
           value: toLower(functionAppName)
         }
         {
-          name: 'CosmosDbConnectionString'
+          name: 'cosmosDbConnectionString'
           value: '@Microsoft.KeyVault(SecretUri=${cosmosDbConnectionStringSecretUri})'
         }
         {
-          name: 'EventHubListenConnectionString'
+          name: 'cosmosDbDatabaseName'
+          value: cosmosDbDatabaseName
+        }
+        {
+          name: 'cosmosDbContainerName'
+          value: cosmosDbContainerName
+        }
+        {
+          name: 'eventHubSendConnectionString'
+          value: '@Microsoft.KeyVault(SecretUri=${eventHubSendAccessPolicySecretUri})'
+        }
+        {
+          name: 'eventHubListenConnectionString'
           value: '@Microsoft.KeyVault(SecretUri=${eventHubListenAccessPolicySecretUri})'
+        }
+        {
+          name: 'eventHubName'
+          value: eventHubName
+        }
+        {
+          name: 'eventHubConsumerGroup'
+          value: eventHubConsumerGroup
+        }
+        {
+          name: 'maxQueueDepth'
+          value: string(maxQueueDepth)
         }
       ]
     }

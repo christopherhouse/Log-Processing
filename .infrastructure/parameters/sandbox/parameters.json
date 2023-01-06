@@ -61,6 +61,9 @@
       },
       "iotHubName": {
         "value": "cmh-logprocess-iot-sbx"
+      },
+      "maxQueueDepth": {
+        "value": 100
       }
     }
   }
