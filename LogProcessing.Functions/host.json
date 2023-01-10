@@ -3,7 +3,8 @@
   "logging": {
     "logLevel": {
       "Host.Triggers.DurableTask": "Warning",
-      "Microsoft.AspNetCore.Routing.RoutingBase":  "None" 
+      "Microsoft": "Warning",
+      "Azure":  "Warning" 
     },
     "applicationInsights": {
       "samplingSettings": {
