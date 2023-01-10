@@ -4,7 +4,8 @@
     "logLevel": {
       "Host.Triggers.DurableTask": "Warning",
       "Microsoft": "Warning",
-      "Azure":  "Warning" 
+      "Azure": "Warning",
+      "DurableTask":  "Warning" 
     },
     "applicationInsights": {
       "samplingSettings": {
