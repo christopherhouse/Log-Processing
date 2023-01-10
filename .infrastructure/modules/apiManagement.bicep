@@ -40,6 +40,7 @@ resource identityProvider 'Microsoft.ApiManagement/service/identityProviders@202
     clientId: devPortalClientId
     clientSecret: devPortalClientSecret
     signinTenant: subscription().tenantId
+    authority: 'login.windows.net'
   }
 }
 
