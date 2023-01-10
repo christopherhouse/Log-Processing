@@ -64,22 +64,6 @@
       },
       "maxQueueDepth": {
         "value": 100
-      },
-      "devPortalClientId": {
-        "reference": {
-          "keyVault": {
-            "id": "/subscriptions/e1f57a36-4892-4716-9a3f-661432b39dbe/resourceGroups/FW-LOGS-PRD/providers/Microsoft.KeyVault/vaults/cmh-logprocess-kv-prd"
-          },
-          "secretName": "devPortalClientId"
-        }
-      },
-      "devPortalClientSecret": {
-        "reference": {
-          "keyVault": {
-            "id": "/subscriptions/e1f57a36-4892-4716-9a3f-661432b39dbe/resourceGroups/FW-LOGS-PRD/providers/Microsoft.KeyVault/vaults/cmh-logprocess-kv-prd"
-          },
-          "secretName": "devPortalClientId"
-        }
-      } 
+      }
     }
   }

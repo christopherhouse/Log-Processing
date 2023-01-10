@@ -20,10 +20,6 @@ param appServicePlanName string
 param containerRegistryName string
 param iotHubName string
 param maxQueueDepth int
-@secure()
-param devPortalClientId string
-@secure()
-param devPortalClientSecret string
 
 var storageAccountDeploymentName = 'storage-${storageAccountName}-${deployment().name}'
 var apiManagementDeploymentName = 'apiManagement-${apiManagementName}-${deployment().name}'
@@ -55,8 +51,6 @@ module apiManagement './modules/apiManagement.bicep' = {
     region: region
     publisherEmail: apiManagementPublisherEmail
     publisherName: apiManagementPublisherName
-    devPortalClientId: devPortalClientId
-    devPortalClientSecret: devPortalClientSecret
   }
   dependsOn: [
     storageAccount
