@@ -1,11 +1,19 @@
 {
     "version": "2.0",
-    "logging": {
-        "applicationInsights": {
-            "samplingSettings": {
-                "isEnabled": true,
-                "excludedTypes": "Request"
-            }
-        }
+  "logging": {
+    "logLevel": {
+      "Host.Triggers.DurableTask": "Warning",
+      "Microsoft": "Warning",
+      "Azure": "Warning",
+      "DurableTask":  "Warning" 
+    },
+    "applicationInsights": {
+      "samplingSettings": {
+        "isEnabled": true,
+        "excludedTypes": "Request;Dependency;Exception;Event",
+        "minSamplingPercentage": 0.01,
+        "maxSamplingPercentage": 1.0
+      }
     }
+  }
 }

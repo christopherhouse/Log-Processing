@@ -63,6 +63,9 @@ module logAnalyticsWorkspace './modules/logAnalyticsWorkspace.bicep' = {
     logAnalyticsWorkspaceName: logAnalyticsWorkspaceName
     region: region
   }
+  dependsOn: [
+    keyVault
+  ]
 }
 
 module apimApplicationInsights './modules/applicationInsights.bicep' = {
