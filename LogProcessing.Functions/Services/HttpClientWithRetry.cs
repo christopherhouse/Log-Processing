@@ -4,7 +4,7 @@ using LogProcessing.Functions.Models;
 
 namespace LogProcessing.Functions.Services;
 
-public class HttpClientWithRetry
+public class HttpClientWithRetry : IHttpClientWithRetry
 {
     private readonly HttpClient _httpClient;
     private static readonly Uri _uri = new Uri("http://ip-api.com/batch/json");

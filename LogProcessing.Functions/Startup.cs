@@ -15,7 +15,7 @@ public class Startup : FunctionsStartup
     {
         var sp = builder.Services.BuildServiceProvider();
 
-        builder.Services.AddHttpClient<HttpClientWithRetry>()
+        builder.Services.AddHttpClient<IHttpClientWithRetry,HttpClientWithRetry>()
             .AddPolicyHandler(_ =>
             {
                 return HttpPolicyExtensions.HandleTransientHttpError()

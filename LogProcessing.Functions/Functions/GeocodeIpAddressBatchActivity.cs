@@ -8,15 +8,12 @@ namespace LogProcessing.Functions.Functions;
 public class GeocodeIpAddressBatchActivity
 {
     private readonly ILogger<GeocodeIpAddressBatchActivity> _logger;
-    private readonly IHttpClientFactory _httpClientFactory;
-    private readonly HttpClientWithRetry _httpClientWithRetry;
+    private readonly IHttpClientWithRetry _httpClientWithRetry;
 
     public GeocodeIpAddressBatchActivity(ILogger<GeocodeIpAddressBatchActivity> logger,
-        IHttpClientFactory httpClientFactory,
-        HttpClientWithRetry httpClientWithRetry)
+        IHttpClientWithRetry httpClientWithRetry)
     {
         _logger = logger;
-        _httpClientFactory = httpClientFactory;
         _httpClientWithRetry = httpClientWithRetry;
     }
 
