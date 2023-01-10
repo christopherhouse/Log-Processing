@@ -9,6 +9,10 @@ param publisherName string
 ])
 param skuName string = 'Developer'
 param skuCount int = 1
+@secure()
+param devPortalClientId string
+@secure()
+param devPortalClientSecret string
 
 resource apiManagement 'Microsoft.ApiManagement/service@2022-04-01-preview' = {
   name: apiManagementName
@@ -23,6 +27,27 @@ resource apiManagement 'Microsoft.ApiManagement/service@2022-04-01-preview' = {
   }
   identity: {
     type: 'SystemAssigned'
+  }
+}
+
+resource identityProvider 'Microsoft.ApiManagement/service/identityProviders@2022-04-01-preview' = {
+  name: 'aad'
+  parent: apiManagement
+  properties: {
+    allowedTenants: [
+      subscription().tenantId
+    ]
+    clientId: devPortalClientId
+    clientSecret: devPortalClientSecret
+    signinTenant: subscription().tenantId
+  }
+}
+
+resource portalConfig 'Microsoft.ApiManagement/service/portalconfigs@2022-04-01-preview' = {
+  name: 'portalconfig'
+  parent: apiManagement
+  properties: {
+    enableBasicAuth: false
   }
 }
 
