@@ -1,0 +1,6 @@
+{
+  "properties": {
+    "displayName": "Firewall Log Ingestion",
+    "versioningScheme": "Segment"
+  }
+}

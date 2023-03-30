@@ -1,0 +1,15 @@
+{
+  "properties": {
+    "credentials": {
+      "header": {
+        "x-functions-key": [
+          "{{cmh-logprocess-fa-sbx-key}}"
+        ]
+      }
+    },
+    "description": "cmh-logprocess-fa-sbx",
+    "protocol": "http",
+    "resourceId": "https://management.azure.com/subscriptions/e1f57a36-4892-4716-9a3f-661432b39dbe/resourceGroups/FW-LOGS-SBX/providers/Microsoft.Web/sites/cmh-logprocess-fa-sbx",
+    "url": "https://cmh-logprocess-fa-sbx.azurewebsites.net/api"
+  }
+}
