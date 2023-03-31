@@ -1,0 +1,28 @@
+openapi: 3.0.1
+info:
+  title: Firewall Log Ingestion
+  description: Import from "cmh-logprocess-fa-sbx" Function App
+  version: v1
+servers:
+  - url: https://cmh-logprocess-apim-sbx.azure-api.net/fwlogs/v1
+paths:
+  /ReceiveLogs:
+    post:
+      summary: ReceiveLogs
+      operationId: post-receivelogs
+      responses:
+        '200':
+          description: 
+components:
+  securitySchemes:
+    apiKeyHeader:
+      type: apiKey
+      name: Ocp-Apim-Subscription-Key
+      in: header
+    apiKeyQuery:
+      type: apiKey
+      name: subscription-key
+      in: query
+security:
+  - apiKeyHeader: [ ]
+  - apiKeyQuery: [ ]

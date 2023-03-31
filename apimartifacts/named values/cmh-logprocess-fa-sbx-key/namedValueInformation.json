@@ -1,0 +1,11 @@
+{
+  "properties": {
+    "displayName": "cmh-logprocess-fa-sbx-key",
+    "secret": true,
+    "tags": [
+      "key",
+      "function",
+      "auto"
+    ]
+  }
+}

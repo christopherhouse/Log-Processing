@@ -1,0 +1,11 @@
+{
+  "properties": {
+    "credentials": {
+      "instrumentationKey": "{{appInsightsInstrumentationKey}}"
+    },
+    "description": "Application Insights logger",
+    "isBuffered": true,
+    "loggerType": "applicationInsights",
+    "resourceId": "/subscriptions/e1f57a36-4892-4716-9a3f-661432b39dbe/resourceGroups/FW-LOGS-SBX/providers/Microsoft.Insights/components/cmh-logprocess-ai-apim-sbx"
+  }
+}

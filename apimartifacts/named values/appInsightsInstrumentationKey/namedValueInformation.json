@@ -1,0 +1,9 @@
+{
+  "properties": {
+    "displayName": "appInsightsInstrumentationKey",
+    "keyVault": {
+      "secretIdentifier": "https://cmh-logprocess-kv-sbx.vault.azure.net/secrets/apimApplicationInsightsInstrumentationKey/cc5e00513f40438ca3bfb60683e88931"
+    },
+    "secret": true
+  }
+}
